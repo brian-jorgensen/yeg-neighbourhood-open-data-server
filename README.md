@@ -11,7 +11,8 @@ YEG Neighbourhood Open Data Client - to provide a working example of a client th
 ## Getting Started
 ### ScriptProperties
 This script uses two script properties:
-- CACHE_DURATION: this is how long the data from the open data portal is cached by GAS.
+- CACHE_DURATION: this is how long the data from the open data portal is cached by GAS. If not configured, will default to 21600 seconds.
+- APP_TOKEN: the Socrata app token. See [Socrata's website](https://dev.socrata.com/docs/app-tokens.html).
 
 ### Using it as a google apps script library.
 This code will also be available as a google apps script library that can be included in other google apps script projects.
