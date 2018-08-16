@@ -1,5 +1,5 @@
 # YEG Neighbourhood Open Data Server - Background
-This is a google apps script that provides **greatly simplified** querying, error handling, and json data output for City of Edmonton Open Data that supports filtering based on neighbourhood.
+This is a google apps script ("GAS") library that provides greatly simplified querying, error handling, and json data output for City of Edmonton Open Data that supports filtering based on neighbourhood.
 
 **The queries in this library do not include all columns/fields in the original datasets. Some of the queries also provided aggregated views of the underlying dataset.**
 
@@ -9,7 +9,11 @@ The source of this data is the City of Edmonton Open Data Portal: [https://data.
 YEG Neighbourhood Open Data Client - to provide a working example of a client that consumes and formats the output of this server.
 
 ## Getting Started
-### Using the library.
+### ScriptProperties
+This script uses two script properties:
+- CACHE_DURATION: this is how long the data from the open data portal is cached by GAS.
+
+### Using it as a google apps script library.
 This code will also be available as a google apps script library that can be included in other google apps script projects.
 
 ### Cloning the repo and pushing into your own google apps script project.
@@ -24,32 +28,32 @@ The charts provided by this library are [Google Apps Script Charts](https://deve
 
 ## Supported Datasets
 ### People, Homes, Incomes
-- Age Ranges (2016 Census) - Table
-- Age Ranges (2016 Census) - Chart
-- Dwelling Types (2014 Census) - Table
-- Household Incomes (2016 Census) - Table
-- Household Incomes (2016 Census) - Chart
-- Building Permits (Current Year-to-Date) - Table
+- Age Ranges (2016 Census) - Data
+- Age Ranges (2016 Census) - Chart - ImgSrc
+- Dwelling Types (2014 Census) - Data
+- Household Incomes (2016 Census) - Data
+- Household Incomes (2016 Census) - Chart - ImgSrc
+- Building Permits (Current Year-to-Date) - Data - Aggregated by Breed
 
 ### Environment
-- Latitude, Longitude, Area - Table
-- Road - Map
-- Terrain - Map
-- Satellite - Map
-- Hybrid - Map
-- Trees - Table
+- Latitude, Longitude, Area - Data
+- Road - Map - ImgSrc
+- Terrain - Map - ImgSrc
+- Satellite - Map - ImgSrc
+- Hybrid - Map - ImgSrc
+- Trees - Data - Aggregated By Species
 
 ### Services
-- Snow Clearing Schedule - Table
-- Sandboxes - Table
+- Snow Clearing Schedule - Data
+- Sandboxes - Data
 
 ### Licences
-- Dog Breeds - Table
-- Cat Breeds - Table
-- Pigeons - Table
-- Bees and Hens - Table
+- Dog Breeds - Data - Aggregated by Breed
+- Cat Breeds - Data - Aggregated by Breed
+- Pigeons - Data
+- Bees and Hens - Data
 
 
 ## Bylaw Infractions, Accidents, Crimes
-- Bylaw Infractions (Current Year-to-Date) - Table
-- Criminal Incidents (Current Year-to-Date) - Table
+- Bylaw Infractions (Current Year-to-Date) - Data - Aggregated by Type
+- Criminal Incidents (Current Year-to-Date) - Data - Aggregated by Type
