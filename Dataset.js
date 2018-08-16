@@ -25,9 +25,9 @@ function getDataForNeighbourhoodName_(neighbourhoodName, otherFilterString, post
   const fullCacheKey = getCacheKey_(this.metadata.key, neighbourhoodName, otherFilterString);
   
   // check cache
-//  if(checkCache(fullCacheKey)) {
-//    return checkCache(fullCacheKey);
-//  }
+  if(checkCache(fullCacheKey)) {
+    return checkCache(fullCacheKey);
+  }
   
   // build filterString
   const filterString = getFilterString_(this.metadata, neighbourhoodName, otherFilterString);

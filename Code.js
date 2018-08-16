@@ -7,14 +7,18 @@
  **/
 var CACHE_DURATION = PropertiesService.getScriptProperties().getProperty('CACHE_DURATION') || 21600;
 
-
+/**
+ * @public
+ **/
 function doGet(e) {
-  
-  var mode = e.parameters.mode;
-  
-  if(mode === 'neighbourhoods') {
-    return Neighbourhoods().getNeighbourhoodNamesArray();
-  }
+  return {};
+}
+
+/**
+ * @public
+ **/
+function doPost(e) {
+  return {};
 }
 
 /**
