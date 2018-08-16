@@ -5,7 +5,7 @@
  *
  * @private
  **/
-var APP_TOKEN_ = CacheService.getScriptCache().get('APP_TOKEN');
+var APP_TOKEN_ = PropertiesService.getScriptProperties().getProperty('APP_TOKEN');
 
 /**
  * Neighbourhood field/column name variations
