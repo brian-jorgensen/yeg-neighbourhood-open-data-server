@@ -1,0 +1,5 @@
+# clasp file
+.clasp.json
+
+# soda app token
+SODA_APP_TOKEN.js
