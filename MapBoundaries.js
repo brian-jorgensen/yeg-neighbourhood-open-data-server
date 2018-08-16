@@ -31,7 +31,7 @@ var MapBoundaries = function() {
     key: 'MapBoundaries',
     name: 'Neighbourhood Boundaries',
     dataset: '54b2-pd37',
-    url: 'https://data.edmonton.ca/Geospatial-Boundaries/City-of-Edmonton-Neighbourhood-Boundaries/jfvj-x253',
+    url: 'https://data.edmonton.ca/Geospatial-Boundaries/City-of-Edmonton-Neighbourhood-Boundaries/jfvj-x253/data',
     
     neighbourhoodField: NeighbourhoodField.NAME,
     neighbourhoodFieldFormat: NeighbourhoodFieldFormat.TITLECASE,
