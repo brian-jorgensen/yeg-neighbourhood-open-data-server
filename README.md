@@ -9,11 +9,11 @@ This is a google apps script that provides simplified views of City of Edmonton 
 
 
 ## People, Homes, Incomes
-- Age Ranges (2016) - Table
-- Age Ranges (2016) - Chart
-- Dwelling Types (2014) - Table
-- Household Incomes (2016) - Table
-- Household Incomes (2016) - Chart
+- Age Ranges (2016 Census) - Table
+- Age Ranges (2016 Census) - Chart
+- Dwelling Types (2014 Census) - Table
+- Household Incomes (2016 Census) - Table
+- Household Incomes (2016 Census) - Chart
 - Building Permits (Current Year) - Table
 
 ## Environment
