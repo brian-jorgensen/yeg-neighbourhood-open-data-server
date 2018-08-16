@@ -5,8 +5,8 @@ This is a google apps script that provides **greatly simplified** querying, erro
 
 The source of this data is the City of Edmonton Open Data Portal: [https://data.edmonton.ca](https://data.edmonton.ca).
 
-# Coming Soon?
-A related YEG Neighbourhood Open Data Client that provides an example of what the output can look like.
+# Coming Soon
+YEG Neighbourhood Open Data Client - to provide a working example of a client that consumes and formats the output of this server.
 
 ## Getting Started
 ### Using the library.
