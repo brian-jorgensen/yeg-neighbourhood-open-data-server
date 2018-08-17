@@ -71,7 +71,7 @@ var PetLicences = function() {
     // convert year to param?!
     const year = new Date().getFullYear();
     var otherFilterString = 'pet_type=' + petType + '&year=' + year;
-    return getDataForNeighbourhoodName_(neighbourhoodName, otherFilterString);
+    return getDataForNeighbourhoodName_(this.metadata, neighbourhoodName, otherFilterString);
   };
     
   return this;

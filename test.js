@@ -5,8 +5,8 @@ function assertEqual(title, received,expected) {
     Logger.log('---');
   } else {
     Logger.log(title + ': FAIL');
-    Logger.log('received: ' + JSON.stringify(received));
-    Logger.log('expected: ' + JSON.stringify(expected));
+    Logger.log('TEST received: ' + JSON.stringify(received));
+    Logger.log('TEST expected: ' + JSON.stringify(expected));
     Logger.log('---');
   }
 }

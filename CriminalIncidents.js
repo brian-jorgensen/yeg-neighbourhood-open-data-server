@@ -45,7 +45,7 @@ var CriminalIncidents = function() {
    **/
   this.getDataForNeighbourhoodName = function(neighbourhoodName) {
     const year = new Date().getFullYear();
-    return getDataForNeighbourhoodName_(neighbourhoodName,'incident_reported_year=' + year);
+    return getDataForNeighbourhoodName_(this.metadata, neighbourhoodName,'incident_reported_year=' + year);
   }
   
   return this;

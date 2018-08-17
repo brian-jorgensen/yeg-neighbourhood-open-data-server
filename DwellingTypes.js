@@ -59,7 +59,7 @@ var DwellingTypes = function() {
    * @public
    **/
   this.getDataForNeighbourhoodName = function(neighbourhoodName) {
-    return getDataForNeighbourhoodName_(neighbourhoodName, null);
+    return getDataForNeighbourhoodName_(this.metadata, neighbourhoodName, null);
   };
   
   /**
@@ -67,7 +67,7 @@ var DwellingTypes = function() {
    **/
   this.getChartForNeighbourhoodName = function(neighbourhoodName) {
     
-    if(!neighbourhoodName || !verifyNeighbourhoodName_(neighbourhoodName)) {
+    if(!neighbourhoodName || !verifyNeighbourhoodName(neighbourhoodName)) {
       return {
         result: 'error',
         message: 'DwellingType.getChartForNeighbourhoodName(): param error: invalid neighbourhood name.'

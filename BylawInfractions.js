@@ -45,7 +45,7 @@ var BylawInfractions = function() {
    **/
   this.getDataForNeighbourhoodName = function(neighbourhoodName) {
     const year = new Date().getFullYear();
-    return getDataForNeighbourhoodName_(neighbourhoodName,'year=' + year);
+    return getDataForNeighbourhoodName_(this.metadata, neighbourhoodName,'year=' + year);
   }
   
   return this;

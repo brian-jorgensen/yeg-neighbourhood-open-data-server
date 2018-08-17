@@ -65,7 +65,7 @@ var MapBoundaries = function() {
    * @public
    **/
   this.getDataForNeighbourhoodName = function(neighbourhoodName) {
-    return getDataForNeighbourhoodName_(neighbourhoodName, null, postFilterData);
+    return getDataForNeighbourhoodName_(this.metadata,neighbourhoodName, null, postFilterData);
   }
   
   return this;

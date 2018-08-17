@@ -46,7 +46,7 @@ var LatLonArea = function() {
    * @public
    **/
   this.getDataForNeighbourhoodName = function(neighbourhoodName) {
-    return getDataForNeighbourhoodName_(neighbourhoodName);
+    return getDataForNeighbourhoodName_(this.metadata, neighbourhoodName);
   }
   
   return this;

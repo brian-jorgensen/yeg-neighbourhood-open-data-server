@@ -48,7 +48,7 @@ var HensBeesLicences = function() {
     
     // filter on status_code?
     var otherFilterString = 'status_code=ISSUED';
-    return getDataForNeighbourhoodName_(neighbourhoodName, otherFilterString);
+    return getDataForNeighbourhoodName_(this.metadata, neighbourhoodName, otherFilterString);
   };
     
   return this;

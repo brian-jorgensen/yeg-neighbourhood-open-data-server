@@ -50,7 +50,7 @@ var HouseholdIncomes = function() {
    * @public
    **/
   this.getDataForNeighbourhoodName = function(neighbourhoodName) {
-    return getDataForNeighbourhoodName_(neighbourhoodName, null);
+    return getDataForNeighbourhoodName_(this.metadata, neighbourhoodName, null);
   };
   
   /**
@@ -58,7 +58,7 @@ var HouseholdIncomes = function() {
    **/
   this.getChartForNeighbourhoodName = function(neighbourhoodName) {
     
-    if(!neighbourhoodName || !verifyNeighbourhoodName_(neighbourhoodName)) {
+    if(!neighbourhoodName || !verifyNeighbourhoodName(neighbourhoodName)) {
       return {
         result: 'error',
         message: 'HouseholdIncomes.getChartForNeighbourhoodName(): param error: invalid neighbourhood name.'

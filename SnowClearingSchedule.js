@@ -45,7 +45,7 @@ var SnowClearingSchedule = function() {
    * @public
    **/
   this.getDataForNeighbourhoodName = function(neighbourhoodName) {
-    return getDataForNeighbourhoodName_(neighbourhoodName, null);
+    return getDataForNeighbourhoodName_(this.metadata, neighbourhoodName, null);
   }
     
   return this;

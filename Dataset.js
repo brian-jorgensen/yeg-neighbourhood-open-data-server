@@ -1,18 +1,20 @@
 
 /**
- * Function that is composed into data objects
+ * Fetch data.
  *
  * @private
+ * @param {object} metadata
  * @param {string} neighbourhoodName
- * @param {string} otherFilterString - 
+ * @param {string} otherFilterString
+ * @param {function} postFilterData
  **/
-function getDataForNeighbourhoodName_(neighbourhoodName, otherFilterString, postFilterData) {
-  
+function getDataForNeighbourhoodName_(metadata, neighbourhoodName, otherFilterString, postFilterData) {
+    
   // verify neighbourhoodName
-  if(!neighbourhoodName || !verifyNeighbourhoodName_(neighbourhoodName)) {
+  if(!neighbourhoodName || !verifyNeighbourhoodName(neighbourhoodName)) {
     return {
       result: 'error',
-      message: this.metadata.key + '.getDataForNeighbourhoodName(): param error: invalid neighbourhood name.'
+      message: metadata.key + '.getDataForNeighbourhoodName(): param error: invalid neighbourhood name.'
     };
   }
   
@@ -22,18 +24,18 @@ function getDataForNeighbourhoodName_(neighbourhoodName, otherFilterString, post
   }
   
   // build cacheKey: unique to datasetKey + neighbourhoodName
-  const fullCacheKey = getCacheKey_(this.metadata.key, neighbourhoodName, otherFilterString);
+  const fullCacheKey = getCacheKey_(metadata.key, neighbourhoodName, otherFilterString);
   
-  // check cache
-  if(checkCache(fullCacheKey)) {
+  // check cache first
+  if(!REFRESH_CACHE_ && checkCache(fullCacheKey)) {
     return checkCache(fullCacheKey);
   }
   
   // build filterString
-  const filterString = getFilterString_(this.metadata, neighbourhoodName, otherFilterString);
+  const filterString = getFilterString_(metadata, neighbourhoodName, otherFilterString);
   
   // build sodaUrl and overwrite private class var (for debugging)
-  sodaUrl = getSodaUrl_(this.metadata, filterString);
+  sodaUrl = getSodaUrl_(metadata, filterString);
   
   // fetch responseData
   var responseData;
@@ -42,31 +44,31 @@ function getDataForNeighbourhoodName_(neighbourhoodName, otherFilterString, post
   try {
     responseData = JSON.parse(UrlFetchApp.fetch(sodaUrl));
   } catch (error) {
-    console.error(this.metadata.key + '.getDataForNeighbourhoodName(): error fetching data from open data portal: ' + error);
+    console.error(metadata.key + '.getDataForNeighbourhoodName(): error fetching data from open data portal: ' + error);
     return {
       result: 'error',
-      message: this.metadata.key + '.getDataForNeighbourhoodName(): error fetching data from open data portal: ' + error
+      message: metadata.key + '.getDataForNeighbourhoodName(): error fetching data from open data portal: ' + error
     };
   }
   
   // TODO: determine if safe to always assume an array?!
   // error check results
-  if (this.metadata.noneOK && (responseData.length === 0)) {
+  if (metadata.noneOK && (responseData.length === 0)) {
     return {
       result: 'successEmpty',
       total: 0
     };
-  } else if (!this.metadata.noneOK && (responseData.length === 0)) {
-    console.error(this.metadata.key + '.getDataForNeighbourhoodName(): no data returned for neighbourhood: ' + neighbourhoodName + '. The administrator has been notified.');
+  } else if (!metadata.noneOK && (responseData.length === 0)) {
+    console.error(metadata.key + '.getDataForNeighbourhoodName(): no data returned for neighbourhood: ' + neighbourhoodName + '. The administrator has been notified.');
     return {
       result: 'error',
-      message: this.metadata.key + '.getDataForNeighbourhoodName(): no data returned for neighbourhood: ' + neighbourhoodName + '. The administrator has been notified.',
+      message: metadata.key + '.getDataForNeighbourhoodName(): no data returned for neighbourhood: ' + neighbourhoodName + '. The administrator has been notified.',
     };
-  } else if(!this.metadata.multipleOK && (responseData.length > 1)) {
-    console.error(this.metadata.key + '.getDataForNeighbourhoodName(): multiple rows returned for neighbourhood: ' + neighbourhoodName + '. The administrator has been notified.');
+  } else if(!metadata.multipleOK && (responseData.length > 1)) {
+    console.error(metadata.key + '.getDataForNeighbourhoodName(): multiple rows returned for neighbourhood: ' + neighbourhoodName + '. The administrator has been notified.');
     return {
       result: 'error',
-      message: this.metadata.key + '.getDataForNeighbourhoodName(): multiple rows returned for neighbourhood: ' + neighbourhoodName + '. The administrator has been notified.',
+      message: metadata.key + '.getDataForNeighbourhoodName(): multiple rows returned for neighbourhood: ' + neighbourhoodName + '. The administrator has been notified.',
     };  
   }
   
@@ -87,7 +89,7 @@ function getDataForNeighbourhoodName_(neighbourhoodName, otherFilterString, post
       result: 'success',
       data: dataObj.data,
       total: (dataObj.total ? dataObj.total : undefined),
-      metadata: this.metadata,
+      metadata: metadata,
       cacheKey: fullCacheKey
     };
     

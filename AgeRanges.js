@@ -31,10 +31,7 @@ var AgeRanges = function() {
     
     noneOK: true,
     multipleOK: false,
-    
-    selectFields: null,
-    orderByField: null
-        
+            
   };
   
 /**
@@ -71,7 +68,7 @@ var AgeRanges = function() {
    * @public
    **/
   this.getDataForNeighbourhoodName = function(neighbourhoodName) {
-    return getDataForNeighbourhoodName_(neighbourhoodName, null);
+    return getDataForNeighbourhoodName_(this.metadata, neighbourhoodName, null);
   };
 
   /**
@@ -79,7 +76,7 @@ var AgeRanges = function() {
    **/
   this.getChartForNeighbourhoodName = function(neighbourhoodName) {
     
-    if(!neighbourhoodName || !verifyNeighbourhoodName_(neighbourhoodName)) {
+    if(!neighbourhoodName || !verifyNeighbourhoodName(neighbourhoodName)) {
       return {
         result: 'error',
         message: 'AgeRanges.getChartForNeighbourhoodName(): param error: invalid neighbourhood name.'
@@ -144,3 +141,10 @@ var AgeRanges = function() {
   
 };
 
+function abc() {
+  
+  var ar = AgeRanges();
+  var resultObj = AgeRanges().getChartForNeighbourhoodName('Summerside');
+  Logger.log('AgeRanges data: ' + JSON.stringify(resultObj.data));
+  
+}
