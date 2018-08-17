@@ -1,4 +1,4 @@
-# YEG Neighbourhood Open Data Server - Background
+# YEG Neighbourhood Open Data Server
 This is a google apps script ("GAS") library that provides greatly simplified querying, error handling, and json data output for City of Edmonton Open Data that supports filtering based on neighbourhood.
 
 **The queries in this library do not include all columns/fields in the original datasets. Some of the queries also provided aggregated views of the underlying dataset.**
@@ -11,7 +11,12 @@ YEG Neighbourhood Open Data Client - to provide a working example of a client th
 ## Getting Started
 ### ScriptProperties
 This script uses two script properties:
-- CACHE_DURATION: this is how long the data from the open data portal is cached by GAS.
+- CACHE_DURATION: this is how long the data from the open data portal is cached by GAS. If not configured, will default to 21600 seconds.
+- APP_TOKEN: the Socrata app token. See [Socrata's website](https://dev.socrata.com/docs/app-tokens.html).
+
+### Review Permissions
+OAuth Scope required by script: [https://www.googleapis.com/auth/script.external_request](https://www.googleapis.com/auth/script.external_request).
+Client scripts will require users to allow them to 'Connect to an external service' (namely this library).
 
 ### Using it as a google apps script library.
 This code will also be available as a google apps script library that can be included in other google apps script projects.
