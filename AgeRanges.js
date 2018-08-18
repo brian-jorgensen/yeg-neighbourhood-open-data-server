@@ -79,7 +79,7 @@ var AgeRanges = function() {
     if(!neighbourhoodName || !verifyNeighbourhoodName(neighbourhoodName)) {
       return {
         result: 'error',
-        message: 'AgeRanges.getChartForNeighbourhoodName(): param error: invalid neighbourhood name.'
+        errorMessage: 'AgeRanges.getChartForNeighbourhoodName(): param error: invalid neighbourhood name.'
       };
     }
     
@@ -125,7 +125,7 @@ var AgeRanges = function() {
       console.error('AgeRanges.getChartForNeighbourhoodName(): Chart error: ' + error);
       return {
         result: 'error',
-        message: 'AgeRanges.getChartForNeighbourhoodName(): Chart error: ' + error
+        errorMessage: 'AgeRanges.getChartForNeighbourhoodName(): Chart error: ' + error
       };
     }
     

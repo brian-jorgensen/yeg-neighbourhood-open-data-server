@@ -44,6 +44,20 @@ var Sandboxes = function() {
     orderByField: 'address'
     
   };
+  
+  /**
+  * fieldMappings: column headers to human readable values.
+  *
+  * Ex. 'address': 'Address'
+  *
+  * @return {object}
+  **/
+  this.fieldMappings = {
+    'address': 'Address',
+    'latitude': 'Latitude',
+    'longitude': 'Longitude',
+    'comments': 'Comments'
+  };
     
   /**
    * Get data for neighbourhood name

@@ -61,7 +61,7 @@ var HouseholdIncomes = function() {
     if(!neighbourhoodName || !verifyNeighbourhoodName(neighbourhoodName)) {
       return {
         result: 'error',
-        message: 'HouseholdIncomes.getChartForNeighbourhoodName(): param error: invalid neighbourhood name.'
+        errorMessage: 'HouseholdIncomes.getChartForNeighbourhoodName(): param error: invalid neighbourhood name.'
       };
     }
     

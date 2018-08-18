@@ -35,9 +35,22 @@ var BuildingPermits = function() {
     noneOK: true,
     multipleOK: true,
     
-    selectFields: 'work_type,sum(count) as count,sum(construction_value) as total_value', // work_type? job_category
+    selectFields: 'work_type,sum(count),sum(construction_value)',
     orderByField: 'work_type',
     groupByField: 'work_type'
+  };
+  
+  /**
+  * fieldMappings: column headers to human readable values.
+  *
+  * Ex. 'work_type': 'Work Type'
+  *
+  * @return {object}
+  **/
+  this.fieldMappings = {
+    'work_type': 'Work Type',
+    'sum_count': 'Count',
+    'sum_construction_value': 'Total Value'
   };
     
   /**

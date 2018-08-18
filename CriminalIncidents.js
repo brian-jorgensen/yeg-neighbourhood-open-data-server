@@ -35,9 +35,21 @@ var CriminalIncidents = function() {
     noneOK: true,
     multipleOK: true,
     
-    selectFields: 'ucr_violation_type_group_incident,sum(incidents) as incidents',
+    selectFields: 'ucr_violation_type_group_incident,sum(incidents)',
     orderByField: 'ucr_violation_type_group_incident',
     groupByField: 'ucr_violation_type_group_incident'
+  };
+  
+  /**
+  * fieldMappings: column headers to human readable values.
+  *
+  * Ex. 'ucr_violation_type_group_incident': 'Violation Type'
+  *
+  * @return {object}
+  **/
+  this.fieldMappings = {
+    'ucr_violation_type_group_incident': 'Violation Type',
+    'sum_incidents': 'Count'
   };
     
   /**

@@ -54,7 +54,7 @@ function getNeighbourhoods() {
     console.error('Error fetching data from open data portal: ' + error);
     return {
       result: 'error',
-      message: 'Error fetching data from open data portal: ' + error
+      errorMessage: 'Error fetching data from open data portal: ' + error
     };
   }
   

@@ -42,6 +42,20 @@ var SnowClearingSchedule = function() {
   };
   
   /**
+  * fieldMappings: column headers to human readable values.
+  *
+  * Ex. 'maintenance_area_number': 'Maintenance Area #'
+  *
+  * @return {object}
+  **/
+  this.fieldMappings = {
+    'maintenance_area_number': 'Maintenance Area #',
+    'scheduled_day': 'Scheduled Day',
+    'scheduled_date': 'Scheduled Date',
+    'status': 'Status'
+  };
+  
+  /**
    * @public
    **/
   this.getDataForNeighbourhoodName = function(neighbourhoodName) {

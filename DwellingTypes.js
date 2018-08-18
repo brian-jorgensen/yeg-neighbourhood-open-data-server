@@ -33,15 +33,14 @@ var DwellingTypes = function() {
     multipleOK: false
   };
   
-/**
- * fieldMappings: column headers to human readable values.
- *
- * Ex. 'single_detached_house': 'Single Detached House'
- *
- * @public
- * @return {object}
- **/
-  
+  /**
+  * fieldMappings: column headers to human readable values.
+  *
+  * Ex. 'single_detached_house': 'Single Detached House'
+  *
+  * @public
+  * @return {object}
+  **/
   this.fieldMappings = {
     'single_detached_house': 'Single Detached House',
     'duplex_fourplex': 'Duplex Fourplex',
@@ -70,7 +69,7 @@ var DwellingTypes = function() {
     if(!neighbourhoodName || !verifyNeighbourhoodName(neighbourhoodName)) {
       return {
         result: 'error',
-        message: 'DwellingType.getChartForNeighbourhoodName(): param error: invalid neighbourhood name.'
+        errorMessage: 'DwellingType.getChartForNeighbourhoodName(): param error: invalid neighbourhood name.'
       };
     }
     
@@ -116,7 +115,7 @@ var DwellingTypes = function() {
       console.error('DwellingType.getChartForNeighbourhoodName(): Chart error: ' + error);
       return {
         result: 'error',
-        message: 'DwellingType.getChartForNeighbourhoodName(): Chart error: ' + error
+        errorMessage: 'DwellingType.getChartForNeighbourhoodName(): Chart error: ' + error
       };
     }
     

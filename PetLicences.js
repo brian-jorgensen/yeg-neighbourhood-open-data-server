@@ -50,9 +50,21 @@ var PetLicences = function() {
     noneOK: true,
     multipleOK: true,
     
-    selectFields: 'breed,sum(count) as count',
+    selectFields: 'breed,sum(count)',
     orderByField: 'breed',
     groupByField: 'breed'
+  };
+  
+  /**
+  * fieldMappings: column headers to human readable values.
+  *
+  * Ex. 'breed': 'Breed'
+  *
+  * @return {object}
+  **/
+  this.fieldMappings = {
+    'breed': 'Breed',
+    'sum_count': '# Licences'
   };
   
   /**
@@ -64,7 +76,7 @@ var PetLicences = function() {
     if((petType !== 'Dog') && (petType !== 'Cat') && (petType !== 'Pigeons')) {
       return {
         result: 'error',
-        message: 'PetLicences.getDataForNeighbourhoodNameAndPetType(): param error: invalid petType.'
+        errorMessage: 'PetLicences.getDataForNeighbourhoodNameAndPetType(): param error: invalid petType.'
       };
     }
     

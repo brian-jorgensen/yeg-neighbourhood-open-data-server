@@ -35,10 +35,22 @@ var HensBeesLicences = function() {
     noneOK: true,
     multipleOK: true,
     
-    selectFields: 'animal_insect_type,count(animal_insect_type) as count',
+    selectFields: 'animal_insect_type,count(animal_insect_type)',
     orderByField: 'animal_insect_type',
     groupByField: 'animal_insect_type'
     
+  };
+  
+  /**
+  * fieldMappings: column headers to human readable values.
+  *
+  * Ex. 'animal_insect_type': 'Type'
+  *
+  * @return {object}
+  **/
+  this.fieldMappings = {
+    'animal_insect_type': 'Type',
+    'sum_animal_insect_type': '# Licences'
   };
     
   /**

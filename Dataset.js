@@ -14,7 +14,7 @@ function getDataForNeighbourhoodName_(metadata, neighbourhoodName, otherFilterSt
   if(!neighbourhoodName || !verifyNeighbourhoodName(neighbourhoodName)) {
     return {
       result: 'error',
-      message: metadata.key + '.getDataForNeighbourhoodName(): param error: invalid neighbourhood name.'
+      errorMessage: metadata.key + '.getDataForNeighbourhoodName(): param error: invalid neighbourhood name.'
     };
   }
   
@@ -47,7 +47,7 @@ function getDataForNeighbourhoodName_(metadata, neighbourhoodName, otherFilterSt
     console.error(metadata.key + '.getDataForNeighbourhoodName(): error fetching data from open data portal: ' + error);
     return {
       result: 'error',
-      message: metadata.key + '.getDataForNeighbourhoodName(): error fetching data from open data portal: ' + error
+      errorMessage: metadata.key + '.getDataForNeighbourhoodName(): error fetching data from open data portal: ' + error
     };
   }
   
@@ -62,13 +62,13 @@ function getDataForNeighbourhoodName_(metadata, neighbourhoodName, otherFilterSt
     console.error(metadata.key + '.getDataForNeighbourhoodName(): no data returned for neighbourhood: ' + neighbourhoodName + '. The administrator has been notified.');
     return {
       result: 'error',
-      message: metadata.key + '.getDataForNeighbourhoodName(): no data returned for neighbourhood: ' + neighbourhoodName + '. The administrator has been notified.',
+      errorMessage: metadata.key + '.getDataForNeighbourhoodName(): no data returned for neighbourhood: ' + neighbourhoodName + '. The administrator has been notified.',
     };
   } else if(!metadata.multipleOK && (responseData.length > 1)) {
     console.error(metadata.key + '.getDataForNeighbourhoodName(): multiple rows returned for neighbourhood: ' + neighbourhoodName + '. The administrator has been notified.');
     return {
       result: 'error',
-      message: metadata.key + '.getDataForNeighbourhoodName(): multiple rows returned for neighbourhood: ' + neighbourhoodName + '. The administrator has been notified.',
+      errorMessage: metadata.key + '.getDataForNeighbourhoodName(): multiple rows returned for neighbourhood: ' + neighbourhoodName + '. The administrator has been notified.',
     };  
   }
   
@@ -102,7 +102,7 @@ function getDataForNeighbourhoodName_(metadata, neighbourhoodName, otherFilterSt
     
     var resultObj = {
       result: 'error',
-      message: dataObj.message
+      errorMessage: dataObj.errorMessage
     };
         
     return resultObj;
