@@ -1,6 +1,8 @@
 // PUBLIC
   
   /**
+   * Get neighbourhoods metadata
+   *
    * @public
    **/
 function getNeighbourhoodsMetadata() {
@@ -86,17 +88,11 @@ function getNeighbourhoodNamesArray() {
   
   var neighbourhoods = getNeighbourhoods();
   
-  // list of names
-  var namesArray = [];
-  
-  // iterate through neighbourhoods
-  for(var i = 0; i < neighbourhoods.length; i++) {
-    var n = neighbourhoods[i];
-    var name = n.name;
-    
-    // add to list
-    namesArray.push(name);
-  }
+  // list of names  
+  var namesArray = neighbourhoods.reduce(function(accumulator, neighbourhood) {
+    accumulator.push(neighbourhood.name)
+    return accumulator;
+  }, []);
   
   // sort
   namesArray.sort();
@@ -111,94 +107,6 @@ function getNeighbourhoodNamesArray() {
   // return as JavaScript object
   return namesArray;
   
-}
-
-/**
-* Get array of neighbourhood objects; each object has two properties: name, number.
-*
-* @private
-* @return {Object[]} - array of neighbourhood objects, each with name and neighbourhood_number properties
-**/
-function getNeighbourhoodObjectsArray() {
-  
-  var cacheKey = 'neighbourhoodObjectsArray';
-  var cache = CacheService.getScriptCache();
-  if(!REFRESH_CACHE_ && cache.get(cacheKey)) {
-    return JSON.parse(cache.get(cacheKey));   
-  }
-  
-  var neighbourhoods = getNeighbourhoods();
-  
-  // array of objects
-  var d = [];
-  for(var i = 0; i < neighbourhoods.length; i++) {
-    var n = neighbourhoods[i];
-    
-    // values
-    var name = n.name;
-    var number = n.neighbourhood_number;
-    
-    // object
-    var obj = {
-      name: name,
-      number: number
-    };
-    
-    // key is name
-    d.push(obj);
-  }
-  
-  // cache
-  try {
-    cache.put(cacheKey, JSON.stringify(d), CACHE_DURATION);
-  } catch (error) {
-    console.error('Cache error: ' + error);
-  }
-  
-  return d;
-  
-}
-
-  
-/**
-* Get an object of neighbourhood objects with name as key, value is neighbourhood object.
-* Each object has the following properties: name, number.
-*
-* @return {object} neighbourhoodObjs - An object of neighbourhood objects with format {name: {name: 'x', number: y}, ...}.
-**/
-function getNeighbourhoodObjectsObject() {
-  
-  var cacheKey = 'neighbourhoodObjectsObjects';
-  var cache = CacheService.getScriptCache();
-  if(!REFRESH_CACHE_ && cache.get(cacheKey)) {
-    return JSON.parse(cache.get(cacheKey));   
-  }
-  
-  var neighbourhoods = getNeighbourhoods();
-  
-  var n = {};
-  for(var i = 0; i < neighbourhoods.length; i++) {
-    
-    var neighbourhood = neighbourhoods[i];
-    var name = neighbourhood.name;
-    var number = neighbourhood.neighbourhood_number;
-    
-    n[name] = {name: name, number: number};
-  }
-  
-  var data = {
-    result: 'success',
-    data: n
-  };
-  
-  // cache
-  try {
-    cache.put(cacheKey, JSON.stringify(data), CACHE_DURATION);
-  } catch (error) {
-    console.error('Cache error: ' + error);
-  }
-  
-  return JSON.stringify(data);
 }
   
 /**
