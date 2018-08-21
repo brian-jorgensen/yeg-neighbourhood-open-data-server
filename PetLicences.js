@@ -52,19 +52,12 @@ var PetLicences = function() {
     
     selectFields: 'breed,sum(count)',
     orderByField: 'breed',
-    groupByField: 'breed'
-  };
-  
-  /**
-  * fieldMappings: column headers to human readable values.
-  *
-  * Ex. 'breed': 'Breed'
-  *
-  * @return {object}
-  **/
-  this.fieldMappings = {
-    'breed': 'Breed',
-    'sum_count': '# Licences'
+    groupByField: 'breed',
+
+    fieldMappings: {
+      'breed': 'Breed',
+      'sum_count': '# Licences'
+    }
   };
   
   /**

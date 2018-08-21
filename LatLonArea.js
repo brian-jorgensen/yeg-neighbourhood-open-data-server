@@ -39,20 +39,13 @@ var LatLonArea = function() {
     multipleOK: false,
     
     selectFields: 'latitude,longitude,area_sq_km',
-    orderByField: null
-  };
-  
-  /**
-  * fieldMappings: column headers to human readable values.
-  *
-  * Ex. 'area_sq_km': 'Area (km<sup>2</sup>)'
-  *
-  * @return {object}
-  **/
-  this.fieldMappings = {
-    'latitude': 'Latitude',
-    'longitude': 'Longitude',
-    'area_sq_km': 'Area (km<sup>2</sup>)'
+    orderByField: null,
+
+    fieldMappings: {
+      'latitude': 'Latitude',
+      'longitude': 'Longitude',
+      'area_sq_km': 'Area (km<sup>2</sup>)'
+    }
   };
     
   /**

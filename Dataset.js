@@ -90,6 +90,7 @@ function getDataForNeighbourhoodName_(metadata, neighbourhoodName, otherFilterSt
       data: dataObj.data,
       total: (dataObj.total ? dataObj.total : undefined),
       metadata: metadata,
+      fieldMappings: fieldMappings,
       cacheKey: fullCacheKey
     };
     

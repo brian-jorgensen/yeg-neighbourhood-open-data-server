@@ -22,28 +22,21 @@ var HouseholdIncomes = function() {
     name: 'Neighbourhood Household Incomes (2016 Census)',
     dataset: 'j5zx-3kz9',
     url: 'https://data.edmonton.ca/Census/2016-Census-Population-by-Household-Income-Neighbo/jkjx-2hix/data',
+    
     neighbourhoodField: NeighbourhoodField.NEIGHBOURHOOD_NAME,
-    neighbourhoodFieldFormat: NeighbourhoodFieldFormat.UPPERCASE
-  };
+    neighbourhoodFieldFormat: NeighbourhoodFieldFormat.UPPERCASE,
   
-  /**
-   * Column headers mapped to human readable values.
-   *
-   * Ex. '_30_000_to_less_than_60_000': '$30k-$59k'
-   *
-   * @public
-   * @return {object}
-   **/
-  this.fieldMappings = {
-    'less_than_30_000': '<$30k',
-    '_30_000_to_less_than_60_000': '$30k-$59k',
-    '_60_000_to_less_than_100_000': '$60k-$99k',
-    '_100_000_to_less_than_125_000': '$100k-$124k',
-    '_125_000_to_less_than_150_000': '$125k-$149k',
-    '_150_000_to_less_than_200_000': '$150k-$199k',
-    '_200_000_to_less_than_250_000': '$200k-$249k',
-    '_250_000_or_more': '$250k+',
-    'no_response': 'No Response'
+    fieldMappings: {
+      'less_than_30_000': '<$30k',
+      '_30_000_to_less_than_60_000': '$30k-$59k',
+      '_60_000_to_less_than_100_000': '$60k-$99k',
+      '_100_000_to_less_than_125_000': '$100k-$124k',
+      '_125_000_to_less_than_150_000': '$125k-$149k',
+      '_150_000_to_less_than_200_000': '$150k-$199k',
+      '_200_000_to_less_than_250_000': '$200k-$249k',
+      '_250_000_or_more': '$250k+',
+      'no_response': 'No Response'
+    }
   };
   
   /**

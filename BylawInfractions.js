@@ -35,11 +35,16 @@ var BylawInfractions = function() {
     noneOK: true,
     multipleOK: true,
     
-    selectFields: 'complaint,sum(count) as count',
+    selectFields: 'complaint,sum(count)',
     orderByField: 'complaint',
-    groupByField: 'complaint'
-  };
+    groupByField: 'complaint',
     
+    fieldMappings: {
+    'complaint': 'Infraction Type',
+    'sum_count': 'Count'
+    }
+  };
+  
   /**
    * @public
    **/

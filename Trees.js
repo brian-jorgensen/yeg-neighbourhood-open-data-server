@@ -36,47 +36,13 @@ var Trees = function() {
     
     selectFields: 'species,sum(count)',
     orderByField: 'species',
-    groupByField: 'species'
+    groupByField: 'species',
+    
+    fieldMappings: {
+      'species': 'Species',
+      'sum_count': '#'
+    }
   };
-  
-  /**
-  * fieldMappings: column headers to human readable values.
-  *
-  * Ex. 'sum_count': '#'
-  *
-  * @return {object}
-  **/
-  this.fieldMappings = {
-    'species': 'Species',
-    'sum_count': '#'
-  };
-  
-  /**
-   * @public
-   **/
-//  this.postFilterData = function(responseObj) {
-//
-//    // return filtered data
-//    var count = 0;
-//    var trees = [];
-//    for(var i = 0; i < responseObj.length; i++) {
-//      var obj = {
-//        latitude: responseObj[i].latitude,
-//        longitude: responseObj[i].longitude,
-//        diameterBreastHeight: responseObj[i].diameter_breast_height,
-//        species: responseObj[i].species
-//      };
-//      trees.push(obj);
-//      count++;
-//    }
-//    
-//    return {
-//      result: 'success',
-//      data: trees,
-//      total: count
-//    };  
-//
-//  };
   
   /**
    * @public

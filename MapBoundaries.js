@@ -37,8 +37,9 @@ var MapBoundaries = function() {
     neighbourhoodFieldFormat: NeighbourhoodFieldFormat.TITLECASE,
     
     noneOK: false,
-    multipleOK: false
-    
+    multipleOK: false,
+  
+    fieldMappings: {}
   };
   
   /**
@@ -65,7 +66,7 @@ var MapBoundaries = function() {
    * @public
    **/
   this.getDataForNeighbourhoodName = function(neighbourhoodName) {
-    return getDataForNeighbourhoodName_(this.metadata,neighbourhoodName, null, postFilterData);
+    return getDataForNeighbourhoodName_(this.metadata, neighbourhoodName, null, postFilterData);
   }
   
   return this;

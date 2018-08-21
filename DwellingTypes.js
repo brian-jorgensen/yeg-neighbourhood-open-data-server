@@ -30,28 +30,20 @@ var DwellingTypes = function() {
     neighbourhoodFieldFormat: NeighbourhoodFieldFormat.UPPERCASE,
     
     noneOK: true,
-    multipleOK: false
-  };
-  
-  /**
-  * fieldMappings: column headers to human readable values.
-  *
-  * Ex. 'single_detached_house': 'Single Detached House'
-  *
-  * @public
-  * @return {object}
-  **/
-  this.fieldMappings = {
-    'single_detached_house': 'Single Detached House',
-    'duplex_fourplex': 'Duplex Fourplex',
-    'row_house': 'Row House',
-    'apartment_5_stories': 'Apartment (5+ Stories)',
-    'apartment_1_4_stories': 'Apartment (1-4 Stories)',
-    'manufactured_mobile_home': 'Manufactured or Mobile Home',
-    'institution_collective_residence': 'Institution or Collective Residence',
-    'hotel_motel': 'Hotel or Motel',
-    'rv_tent_other': 'RV or Tent or Other',
-    'no_response': 'No Response'
+    multipleOK: false,
+    
+    fieldMappings: {
+      'single_detached_house': 'Single Detached House',
+      'duplex_fourplex': 'Duplex Fourplex',
+      'row_house': 'Row House',
+      'apartment_5_stories': 'Apartment (5+ Stories)',
+      'apartment_1_4_stories': 'Apartment (1-4 Stories)',
+      'manufactured_mobile_home': 'Manufactured or Mobile Home',
+      'institution_collective_residence': 'Institution or Collective Residence',
+      'hotel_motel': 'Hotel or Motel',
+      'rv_tent_other': 'RV or Tent or Other',
+      'no_response': 'No Response'
+    }
   };
     
   /**
