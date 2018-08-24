@@ -32,18 +32,18 @@ var DwellingTypes = function() {
     noneOK: true,
     multipleOK: false,
     
-    fieldMappings: {
-      'single_detached_house': 'Single Detached House',
-      'duplex_fourplex': 'Duplex Fourplex',
-      'row_house': 'Row House',
-      'apartment_5_stories': 'Apartment (5+ Stories)',
-      'apartment_1_4_stories': 'Apartment (1-4 Stories)',
-      'manufactured_mobile_home': 'Manufactured or Mobile Home',
-      'institution_collective_residence': 'Institution or Collective Residence',
-      'hotel_motel': 'Hotel or Motel',
-      'rv_tent_other': 'RV or Tent or Other',
-      'no_response': 'No Response'
-    }
+    fieldMappings: [
+      ['single_detached_house', 'Single Detached House'],
+      ['duplex_fourplex', 'Duplex Fourplex'],
+      ['row_house', 'Row House'],
+      ['apartment_1_4_stories', 'Apartment (1-4 Stories)'],
+      ['apartment_5_stories', 'Apartment (5+ Stories)'],
+      ['manufactured_mobile_home', 'Manufactured or Mobile Home'],
+      ['institution_collective_residence', 'Institution or Collective Residence'],
+      ['hotel_motel', 'Hotel or Motel'],
+      ['rv_tent_other', 'RV or Tent or Other'],
+      ['no_response', 'No Response']
+    ]
   };
     
   /**
@@ -72,7 +72,7 @@ var DwellingTypes = function() {
     .addColumn(Charts.ColumnType.STRING, "Age")
     .addColumn(Charts.ColumnType.NUMBER, "Population");
     
-    var agesObj = this.fieldMappings;
+    var agesObj = this.metadata.fieldMappings;
     var ages = Object.keys(agesObj);
     var noResponse = response.no_response;
     

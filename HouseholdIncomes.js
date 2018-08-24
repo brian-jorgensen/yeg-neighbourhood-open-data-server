@@ -26,17 +26,17 @@ var HouseholdIncomes = function() {
     neighbourhoodField: NeighbourhoodField.NEIGHBOURHOOD_NAME,
     neighbourhoodFieldFormat: NeighbourhoodFieldFormat.UPPERCASE,
   
-    fieldMappings: {
-      'less_than_30_000': '<$30k',
-      '_30_000_to_less_than_60_000': '$30k-$59k',
-      '_60_000_to_less_than_100_000': '$60k-$99k',
-      '_100_000_to_less_than_125_000': '$100k-$124k',
-      '_125_000_to_less_than_150_000': '$125k-$149k',
-      '_150_000_to_less_than_200_000': '$150k-$199k',
-      '_200_000_to_less_than_250_000': '$200k-$249k',
-      '_250_000_or_more': '$250k+',
-      'no_response': 'No Response'
-    }
+    fieldMappings: [
+      ['less_than_30_000', '<$30k'],
+      ['_30_000_to_less_than_60_000', '$30k-$59k'],
+      ['_60_000_to_less_than_100_000', '$60k-$99k'],
+      ['_100_000_to_less_than_125_000', '$100k-$124k'],
+      ['_125_000_to_less_than_150_000', '$125k-$149k'],
+      ['_150_000_to_less_than_200_000', '$150k-$199k'],
+      ['_200_000_to_less_than_250_000', '$200k-$249k'],
+      ['_250_000_or_more', '$250k+'],
+      ['no_response', 'No Response']
+    ]
   };
   
   /**
@@ -65,7 +65,7 @@ var HouseholdIncomes = function() {
     .addColumn(Charts.ColumnType.STRING, "Income Range")
     .addColumn(Charts.ColumnType.NUMBER, "# Houses");
     
-    var hiObj = this.fieldMappings;
+    var hiObj = this.metadata.fieldMappings;
     var incomes = Object.keys(hiObj);
     var noResponse = response.no_response;
     

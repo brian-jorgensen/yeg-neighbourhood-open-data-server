@@ -38,10 +38,10 @@ var Trees = function() {
     orderByField: 'species',
     groupByField: 'species',
     
-    fieldMappings: {
-      'species': 'Species',
-      'sum_count': '#'
-    }
+    fieldMappings: [
+      ['species', 'Species'],
+      ['sum_count', '#']
+    ]
   };
   
   /**

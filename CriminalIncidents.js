@@ -39,10 +39,10 @@ var CriminalIncidents = function() {
     orderByField: 'ucr_violation_type_group_incident',
     groupByField: 'ucr_violation_type_group_incident',
 
-    fieldMappings: {
-      'ucr_violation_type_group_incident': 'Violation Type',
-      'sum_incidents': 'Count'
-    }
+    fieldMappings: [
+      ['ucr_violation_type_group_incident', 'Violation Type'],
+      ['sum_incidents', 'Count']
+    ]
   };
     
   /**

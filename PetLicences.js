@@ -54,10 +54,10 @@ var PetLicences = function() {
     orderByField: 'breed',
     groupByField: 'breed',
 
-    fieldMappings: {
-      'breed': 'Breed',
-      'sum_count': '# Licences'
-    }
+    fieldMappings: [
+      ['breed', 'Breed'],
+      ['sum_count', '# Licences']
+    ]
   };
   
   /**

@@ -43,12 +43,12 @@ var Sandboxes = function() {
     selectFields: 'address,latitude,longitude,comments',
     orderByField: 'address',
     
-    fieldMappings: {
-      'address': 'Address',
-      'latitude': 'Latitude',
-      'longitude': 'Longitude',
-      'comments': 'Comments'
-    }
+    fieldMappings: [
+      ['address', 'Address'],
+      ['latitude', 'Latitude'],
+      ['longitude', 'Longitude'],
+      ['comments', 'Comments']
+    ]
   };
     
   /**

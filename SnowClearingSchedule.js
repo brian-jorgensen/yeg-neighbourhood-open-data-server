@@ -39,12 +39,12 @@ var SnowClearingSchedule = function() {
     
     selectFields: 'maintenance_area_number,scheduled_day,scheduled_date,status',
 
-    fieldMappings: {
-      'maintenance_area_number': 'Maintenance Area #',
-      'scheduled_day': 'Scheduled Day',
-      'scheduled_date': 'Scheduled Date',
-      'status': 'Status'
-    }
+    fieldMappings: [
+      ['maintenance_area_number', 'Maintenance Area #'],
+      ['scheduled_day', 'Scheduled Day'],
+      ['scheduled_date', 'Scheduled Date'],
+      ['status', 'Status']
+    ]
   };
   
   /**

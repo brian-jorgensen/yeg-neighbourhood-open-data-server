@@ -41,11 +41,11 @@ var LatLonArea = function() {
     selectFields: 'latitude,longitude,area_sq_km',
     orderByField: null,
 
-    fieldMappings: {
-      'latitude': 'Latitude',
-      'longitude': 'Longitude',
-      'area_sq_km': 'Area (km<sup>2</sup>)'
-    }
+    fieldMappings: [
+      ['latitude', 'Latitude'],
+      ['longitude', 'Longitude'],
+      ['area_sq_km', 'Area (km<sup>2</sup>)']
+    ]
   };
     
   /**

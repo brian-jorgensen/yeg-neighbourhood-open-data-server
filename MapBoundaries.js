@@ -39,7 +39,7 @@ var MapBoundaries = function() {
     noneOK: false,
     multipleOK: false,
   
-    fieldMappings: {}
+    fieldMappings: []
   };
   
   /**

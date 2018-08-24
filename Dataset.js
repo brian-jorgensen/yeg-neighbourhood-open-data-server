@@ -56,7 +56,9 @@ function getDataForNeighbourhoodName_(metadata, neighbourhoodName, otherFilterSt
   if (metadata.noneOK && (responseData.length === 0)) {
     return {
       result: 'successEmpty',
-      total: 0
+      metadata: metadata,
+      fieldMappings: metadata.fieldMappings,
+      cacheKey: fullCacheKey
     };
   } else if (!metadata.noneOK && (responseData.length === 0)) {
     console.error(metadata.key + '.getDataForNeighbourhoodName(): no data returned for neighbourhood: ' + neighbourhoodName + '. The administrator has been notified.');
@@ -90,7 +92,7 @@ function getDataForNeighbourhoodName_(metadata, neighbourhoodName, otherFilterSt
       data: dataObj.data,
       total: (dataObj.total ? dataObj.total : undefined),
       metadata: metadata,
-      fieldMappings: fieldMappings,
+      fieldMappings: metadata.fieldMappings,
       cacheKey: fullCacheKey
     };
     

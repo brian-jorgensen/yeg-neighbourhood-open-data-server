@@ -39,10 +39,10 @@ var HensBeesLicences = function() {
     orderByField: 'animal_insect_type',
     groupByField: 'animal_insect_type',
       
-    fieldMappings: {
-      'animal_insect_type': 'Type',
-      'sum_animal_insect_type': '# Licences'
-    }
+    fieldMappings: [
+      ['animal_insect_type', 'Type'],
+      ['sum_animal_insect_type', '# Licences']
+    ]
   };
     
   /**

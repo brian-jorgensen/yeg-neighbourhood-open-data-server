@@ -31,28 +31,30 @@ var AgeRanges = function() {
     
     noneOK: true,
     multipleOK: false,
-            
-    fieldMappings: {
-      '_0_4': '0-4',
-      '_5_9': '5-9',
-      '_10_14': '10-14',
-      '_15_19': '15-19',
-      '_20_24': '20-24',
-      '_25_29': '25-29',
-      '_30_34': '30-34',
-      '_35_39': '35-39',
-      '_40_44': '40-44',
-      '_45_49': '45-49',
-      '_50_54': '50-54',
-      '_55_59': '55-59',
-      '_60_64': '60-64',
-      '_65_69': '65-69',
-      '_70_74': '70-74',
-      '_75_79': '75-79',
-      '_80_84': '80-84',
-      '_85': '85+',
-      'no_response': 'No Response'
-    }
+    
+    fieldMappingSummary: ['Age Range', '# People'],
+    
+    fieldMappings: [
+      ['_0_4', '0-4'],
+      ['_5_9', '5-9'],
+      ['_10_14', '10-14'],
+      ['_15_19', '15-19'],
+      ['_20_24', '20-24'],
+      ['_25_29', '25-29'],
+      ['_30_34', '30-34'],
+      ['_35_39', '35-39'],
+      ['_40_44', '40-44'],
+      ['_45_49', '45-49'],
+      ['_50_54', '50-54'],
+      ['_55_59', '55-59'],
+      ['_60_64', '60-64'],
+      ['_65_69', '65-69'],
+      ['_70_74', '70-74'],
+      ['_75_79', '75-79'],
+      ['_80_84', '80-84'],
+      ['_85', '85+'],
+      ['no_response', 'No Response']
+    ]
   };
     
   /**
@@ -81,7 +83,7 @@ var AgeRanges = function() {
     .addColumn(Charts.ColumnType.STRING, "Age")
     .addColumn(Charts.ColumnType.NUMBER, "Population");
     
-    var agesObj = this.fieldMappings;
+    var agesObj = this.metadata.fieldMappings;
     var ages = Object.keys(agesObj);
     var noResponse = response.no_response;
     
