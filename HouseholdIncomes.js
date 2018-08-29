@@ -54,51 +54,43 @@ var HouseholdIncomes = function() {
     var resultObj = this.getDataForNeighbourhoodName(neighbourhoodName);
     var response = resultObj.data[0];
       
-    var data = Charts.newDataTable()
+    var dataTable = Charts.newDataTable()
     .addColumn(Charts.ColumnType.STRING, "Income Range")
     .addColumn(Charts.ColumnType.NUMBER, "# Houses");
     
-    var hiObj = this.metadata.fieldMappings;
-    var incomes = Object.keys(hiObj);
-    var noResponse = response.no_response;
-    
+    var incomesObj = this.metadata.fieldMappings;
     var total = 0;
-    for(var i = 0; i < incomes.length; i++) {
-      var range = incomes[i];
-      var ageText = hiObj[range];
-      var num = response[range];
-      total += parseInt(num);
-      
-      if(range === 'no_response') {
-        continue;
-      }
-      
-      data = data.addRow([ageText, num])
-    }
+
+    incomesObj.map(function(incomeMapping, index) {
+      total += parseInt(response[incomeMapping[0]]);
+      (incomeMapping[0] !== 'no_response') ? dataTable.addRow([incomeMapping[1], response[incomeMapping[0]]]) : null;
+    });
     
-    data = data.build();
+    dataTable = dataTable.build();
     
-    var textStyle = Charts.newTextStyle().setColor('blue').setFontSize(10).build();
+    const textStyle = Charts.newTextStyle().setColor('blue').setFontSize(12).build();
     
     var chart = Charts.newBarChart()
-    .setDataTable(data)
-    .setTitle(neighbourhoodName + ' Total # Houses: ' + total + ' (No response:' + noResponse + ')')
+    .setDataTable(dataTable)
+    .setDimensions(800, 500)
+    .setTitle(neighbourhoodName + ' Total # Houses: ' + total + ' (No response:' + response.no_response + ')')
     .setXAxisTitle('# Houses')
     .setXAxisTextStyle(textStyle)
     .setYAxisTitle('Household Incomes')
     .setYAxisTextStyle(textStyle)
-    .setLegendPosition(Charts.Position.BOTTOM)
+    .setLegendPosition(Charts.Position.NONE)
     .build();
     
-    
     var imageData = Utilities.base64Encode(chart.getAs('image/png').getBytes());
-    var imageSrc = "data:image/png;base64," + encodeURI(imageData);
+    var imageSrc = 'data:image/png;base64,' + encodeURI(imageData);
     
     return {
       result: 'success',
       data: {
         imageSrc: imageSrc
-      }
+      },
+      metadata: this.metadata,
+      fieldMappings: this.metadata.fieldMappings,
     };
   };
   
