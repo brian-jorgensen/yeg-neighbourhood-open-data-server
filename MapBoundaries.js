@@ -18,13 +18,6 @@
 var MapBoundaries = function() {
   
   /**
-   * Soda URL, for debugging
-   *
-   * @private
-   **/
-  var sodaUrl;
-  
-  /**
    * @public
    **/
   this.metadata = {

@@ -15,14 +15,7 @@
  * @return {object} - result object
  **/
 var Sandboxes = function() {
-  
-  /**
-   * Soda URL, for debugging
-   *
-   * @private
-   **/
-  var sodaUrl;
-  
+    
   /**
    * Metadata
    *

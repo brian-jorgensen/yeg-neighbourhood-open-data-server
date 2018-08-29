@@ -12,14 +12,7 @@
  * @return {object} - this
  **/
 var CriminalIncidents = function() {
-  
-  /**
-   * Soda URL, for debugging
-   *
-   * @private
-   **/
-  var sodaUrl;
-  
+    
   /**
    * @public
    **/

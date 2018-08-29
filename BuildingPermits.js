@@ -1,25 +1,15 @@
 // PUBLIC
 
 /**
- * Building Permits for this year by neighbourhood name.
+ * Factory function - Building Permits for current calendar year.
  *
  * Data is stored in script cache for CACHE_DURATION seconds for all users to access.
  *
- * {
- * }
- *
  * @public
- * @return {object} - this
+ * @return {object}
  **/
 var BuildingPermits = function() {
-  
-  /**
-   * Soda URL, for debugging
-   *
-   * @private
-   **/
-  var sodaUrl;
-  
+    
   /**
    * @public
    **/

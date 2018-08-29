@@ -43,13 +43,13 @@ function getNeighbourhoods() {
   var filterString = '';
   
   // get sodaURL
-  var sodaUrl = getSodaUrl_(metadata, filterString, 'name');
+  const sodaUrlWithAppToken = getSodaUrlWithAppToken_(metadata, filterString);
   
   // fetch data from City of Edmonton Open Data
   var response;
   
   try {
-    response = UrlFetchApp.fetch(sodaUrl);
+    response = UrlFetchApp.fetch(sodaUrlWithAppToken);
   } catch (error) {
     console.error('Error fetching data from open data portal: ' + error);
     return {

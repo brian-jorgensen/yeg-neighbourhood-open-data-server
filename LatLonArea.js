@@ -15,14 +15,7 @@
  * @return {object} - this
  **/
 var LatLonArea = function() {
-  
-  /**
-   * Soda URL, for debugging
-   *
-   * @private
-   **/
-  var sodaUrl;
-  
+    
   /**
    * @public
    **/

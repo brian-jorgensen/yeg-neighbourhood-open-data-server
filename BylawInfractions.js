@@ -12,14 +12,7 @@
  * @return {object} - this
  **/
 var BylawInfractions = function() {
-  
-  /**
-   * Soda URL, for debugging
-   *
-   * @private
-   **/
-  var sodaUrl;
-  
+    
   /**
    * @public
    **/

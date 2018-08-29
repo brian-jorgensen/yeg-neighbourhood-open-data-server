@@ -1,4 +1,4 @@
-function testLatLonArea_() {
+function testLatLonArea() {
   
   var qa = LatLonArea().getDataForNeighbourhoodName('Queen Alexandra');
     

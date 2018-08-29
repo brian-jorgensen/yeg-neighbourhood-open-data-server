@@ -1,28 +1,15 @@
 // PUBLIC
 
 /**
- * Get pet licences by pet type (Dog, Cat, Pigeons) and neighbourhood name
+ * Factory function - current Pet Licences
  *
- * {
- *   "breed":"PUG",
- *   "gender":"Male",
- *   "pet_type":"Dog",
- *   "spayed_or_neutered":"Yes",
- * }
+ * Data is stored in script cache for CACHE_DURATION seconds for all users to access.
  *
- * @param {string} name - neighbourhood name
- * @param {string} petType - pet type
- * @return {object} - result object
+ * @public
+ * @return {object}
  **/
 var PetLicences = function() {
-  
-  /**
-   * Soda URL, for debugging
-   *
-   * @private
-   **/
-  var sodaUrl;
-  
+   
  /**
   * Types of pets
   *
@@ -32,7 +19,7 @@ var PetLicences = function() {
   this.PET_TYPE = {
     DOG: 'Dog',
     CAT: 'Cat',
-    PIGEONS: 'Pigeons'
+    PIGEON: 'Pigeons'
   };
   
   /**
@@ -83,7 +70,52 @@ var PetLicences = function() {
   
 };
 
+/**
+ * Factory function - current Pet Licences for Dogs
+ *
+ * @public
+ * @return {object}
+ **/
+var DogLicences = function() {
+  var obj = PetLicences();
+  obj.getDataForNeighbourhoodName = function(neighbourhoodName) {
+    return PetLicences().getDataForNeighbourhoodNameAndPetType(neighbourhoodName, PetLicences().PET_TYPE.DOG);
+  };
+  return obj;
+};
+
+/**
+ * Factory function - current Pet Licences for Cats
+ *
+ * @public
+ * @return {object}
+ **/
+var CatLicences = function() {
+  var obj = PetLicences();
+  obj.getDataForNeighbourhoodName = function(neighbourhoodName) {
+    return PetLicences().getDataForNeighbourhoodNameAndPetType(neighbourhoodName, PetLicences().PET_TYPE.CAT);
+  };
+  return obj;
+};
+
+/**
+ * Factory function - current Pet Licences for Pigeons
+ *
+ * @public
+ * @return {object}
+ **/
+var PigeonLicences = function() {
+  var obj = PetLicences();
+  obj.getDataForNeighbourhoodName = function(neighbourhoodName) {
+    return PetLicences().getDataForNeighbourhoodNameAndPetType(neighbourhoodName, PetLicences().PET_TYPE.PIGEON);
+  };
+  return obj;
+};
+
+
 function test4() {
-  var resultObj = PetLicences().getDataForNeighbourhoodNameAndPetType('Holyrood', 'Pigeons');
-  Logger.log(resultObj); 
+  
+  var resultObj = PigeonLicences().getDataForNeighbourhoodName('Holyrood');
+  Logger.log(resultObj);
+  
 }

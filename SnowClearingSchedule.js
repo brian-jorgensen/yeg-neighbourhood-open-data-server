@@ -14,14 +14,7 @@
  * @return {object} - result object
  **/
 var SnowClearingSchedule = function() {
-  
-  /**
-   * Soda URL, for debugging
-   *
-   * @private
-   **/
-  var sodaUrl;
-  
+    
   /**
    * @public
    **/

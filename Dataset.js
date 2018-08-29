@@ -34,15 +34,16 @@ function getDataForNeighbourhoodName_(metadata, neighbourhoodName, otherFilterSt
   // build filterString
   const filterString = getFilterString_(metadata, neighbourhoodName, otherFilterString);
   
-  // build sodaUrl and overwrite private class var (for debugging)
-  sodaUrl = getSodaUrl_(metadata, filterString);
-  
+  // build sodaUrl
+  metadata.sodaUrl = getSodaUrl_(metadata, filterString);
+  const sodaUrlWithAppToken = getSodaUrlWithAppToken_(metadata, filterString);
+    
   // fetch responseData
   var responseData;
   
   // TODO handle soda errors more explicitly
   try {
-    responseData = JSON.parse(UrlFetchApp.fetch(sodaUrl));
+    responseData = JSON.parse(UrlFetchApp.fetch(sodaUrlWithAppToken));
   } catch (error) {
     console.error(metadata.key + '.getDataForNeighbourhoodName(): error fetching data from open data portal: ' + error);
     return {
@@ -81,7 +82,7 @@ function getDataForNeighbourhoodName_(metadata, neighbourhoodName, otherFilterSt
   } else {
     dataObj = {
       result: 'success',
-      data: responseData
+      data: responseData // this will be an array of row objects!
     };
   }
   
@@ -105,7 +106,10 @@ function getDataForNeighbourhoodName_(metadata, neighbourhoodName, otherFilterSt
     
     var resultObj = {
       result: 'error',
-      errorMessage: dataObj.errorMessage
+      errorMessage: dataObj.errorMessage,
+      metadata: metadata,
+      fieldMappings: metadata.fieldMappings,
+      cacheKey: fullCacheKey
     };
         
     return resultObj;

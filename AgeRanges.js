@@ -9,14 +9,7 @@
  * @return {object} - result object
  **/
 var AgeRanges = function() {
-  
-  /**
-   * Soda URL, for debugging
-   *
-   * @private
-   **/
-  var sodaUrl;
-  
+    
   /**
    * @public
    **/
@@ -76,6 +69,9 @@ var AgeRanges = function() {
       };
     }
     
+    // build cacheKey: unique to datasetKey + neighbourhoodName
+//    const fullCacheKey = getCacheKey_(this.metadata.key, neighbourhoodName);
+    
     var resultObj = this.getDataForNeighbourhoodName(neighbourhoodName);
     var response = resultObj.data[0];
     
@@ -83,23 +79,26 @@ var AgeRanges = function() {
     .addColumn(Charts.ColumnType.STRING, "Age")
     .addColumn(Charts.ColumnType.NUMBER, "Population");
     
-    var agesObj = this.metadata.fieldMappings;
-    var ages = Object.keys(agesObj);
+    const agesObj = this.metadata.fieldMappings;
     var noResponse = response.no_response;
     
     var total = 0;
-    for(var i = 0; i < ages.length; i++) {
-      var age = ages[i];
-      var ageText = agesObj[age];
-      var population = response[age];
-      total += parseInt(population);
-      
-      if(age === 'no_response') {
-        continue;
-      }
-      
-      dataTable = dataTable.addRow([ageText, population])
-    }
+//    for(var i = 0; i < ages.length; i++) {
+//      var age = ages[i];
+//      var ageText = agesObj[age];
+//      var population = response[age];
+//      total += parseInt(population);
+//      
+//      if(age === 'no_response') {
+//        continue;
+//      }
+//      
+//      dataTable = dataTable.addRow([ageText, population])
+//    }
+    agesObj.map(function(ageMapping, index) {
+      total += parseInt(response[ageMapping[0]]);
+      (ageMapping[0] !== 'no_response') ? dataTable.addRow([ageMapping[1], response[ageMapping[0]]]) : null;
+    });
     
     dataTable = dataTable.build();
     
@@ -126,7 +125,10 @@ var AgeRanges = function() {
       result: 'success',
       data: {
         imageSrc: imageSrc
-      }
+      },
+      metadata: this.metadata,
+      fieldMappings: this.metadata.fieldMappings,
+      //cacheKey: this.fullCacheKey
     };
   };
   

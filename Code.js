@@ -27,7 +27,29 @@ var APP_TOKEN_ = PropertiesService.getScriptProperties().getProperty('APPTOKEN')
  * @public
  **/
 function doGet(e) {
-  return {};
+
+  const datasetName = (e.parameter.datasetName) ? e.parameter.datasetName : 'AgeRanges';
+  
+  // error check
+  if(!getDatasets().includes(datasetName)) {
+    var resultObj = {
+      result: 'error',
+      message: 'Param error: invalid datasetName'
+    };
+    return ContentService.createTextOutput(JSON.stringify(resultObj))
+    .setMimeType(ContentService.MimeType.JSON);
+  }
+  
+  var resultObj = {
+    result: 'Success',
+    data: 'x'
+  };
+  
+  // default mode is json
+  return ContentService.createTextOutput(JSON.stringify(resultObj))
+  .setMimeType(ContentService.MimeType.JSON);
+    
+
 }
 
 /**
@@ -38,41 +60,77 @@ function doPost(e) {
 }
 
 /**
+ * Get list of available dataset names
+ *
  * @public
  **/
 function getDatasets() {
+  return getDatasetMapping().map(function(x, index) {
+    return x[0];
+  });
+}
+
+/**
+ * Get list of available functions for a given dataset name
+ *
+ * @public
+ * @param {string} datasetName
+ @return [string] - array of functionNames
+ **/
+function getDatasetFunctions(datasetName) {
+
+  const vals = getDatasetMapping().map(function(x, index) {
+    return ((x[0] === datasetName) ? x[1] : null);
+  }).filter(function(x, index) {
+    return x;
+  });
+  return vals[0];
+
+}
+
+/**
+ * @public
+ **/
+function getDatasetMapping() {
   return [
-    'AgeRanges',
-    'BuildingPermits',
-    'BylawInfractions',
-    'CriminalIncidents',
-    'DwellingTypes',
-    'HensBeesLicences',
-    'HouseholdIncomes',
-    'LatLonArea',
-    'MapBoundaries',
-    'PetLicences',
-    'Sandboxes',
-    'SnowClearingSchedule',
-    'Trees'
-    ];
+    ['AgeRanges',['getDataForNeighbourhoodName', 'getChartForNeighbourhoodName']],
+    ['BeesLicences',['getDataForNeighbourhoodName']],
+    ['BuildingPermits',['getDataForNeighbourhoodName']],
+    ['BylawInfractions',['getDataForNeighbourhoodName']],
+    ['CatLicences',['getDataForNeighbourhoodName']],
+    ['CriminalIncidents',['getDataForNeighbourhoodName']],
+    ['DogLicences',['getDataForNeighbourhoodName']],
+    ['DwellingTypes',['getDataForNeighbourhoodName', 'getChartForNeighbourhoodName']],
+    ['HensLicences',['getDataForNeighbourhoodName']],
+    ['HouseholdIncomes',['getDataForNeighbourhoodName']],
+    ['LatLonArea',['getDataForNeighbourhoodName']],
+    ['MapBoundaries',['getDataForNeighbourhoodName']],
+    ['PigeonLicences',['getDataForNeighbourhoodName']],
+    ['Sandboxes',['getDataForNeighbourhoodName']],
+    ['SnowClearingSchedule',['getDataForNeighbourhoodName']],
+    ['Trees',['getDataForNeighbourhoodName']]
+  ];
+  
 }
 
 /**
  * Run tests
  *
- * @private
+ * @public
  **/
 function runTests() {
   
-  testAgeRanges_();
-  testDwellingTypes_();
-  testHouseholdIncomes_();
-  testLatLonArea_();
-  testMapBoundaries_();
-  testNeighbourhoods_();
-  testSandboxes_();
-  testSnowClearingSchedule_();
+  testAgeRanges();
+  testBuildingPermits();
+  testBylawInfractions();
+  //testDwellingTypes();
+  testHensBeesLicences();
+  //testHouseholdIncomes();
+  testLatLonArea();
+  testMapBoundaries();
+  testNeighbourhoods();
+  testSandboxes();
+  testSnowClearingSchedule();
   
 }
 

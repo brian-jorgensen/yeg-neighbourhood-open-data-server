@@ -37,11 +37,11 @@ var NeighbourhoodFieldFormat = {
 /**
  * @private
  *
- * Build SODA URL dynamically. Returned in URI-encoded format.
+ * Build SODA URL dynamically.
  *
  * @param {object} metadata - 
  * @param {string} filterString - 
- * @return {string} - City of Edmonton Open Data Portal SODA URL, URI-encoded.
+ * @return {string} - City of Edmonton Open Data Portal SODA URL.
  **/
 function getSodaUrl_(metadata, filterString) {
 
@@ -62,11 +62,22 @@ function getSodaUrl_(metadata, filterString) {
   
   const limit = '&$limit=50000';
   
-  const appToken = '&$$app_token=' + APP_TOKEN_;
-  
-  var url = 'https://data.edmonton.ca/resource/' + metadata.dataset + '.json?' + select + fs + orderBy + groupBy + limit + appToken;
+  var url = 'https://data.edmonton.ca/resource/' + metadata.dataset + '.json?' + select + fs + orderBy + groupBy + limit;
 
-  // DO NOT URIENCODE SINGLE QUOTES!
-  //return encodeURI(url);
   return url;
+}
+
+/**
+ * @private
+ *
+ * Append APP_TOKEN to SODA URL.
+ *
+ * @param {object} metadata - 
+ * @param {string} filterString - 
+ * @return {string} - SODA URL with APP TOKEN.
+ **/
+function getSodaUrlWithAppToken_(metadata, filterString) {
+  
+  return getSodaUrl_(metadata, filterString) + '&$$app_token=' + APP_TOKEN_;
+  
 }

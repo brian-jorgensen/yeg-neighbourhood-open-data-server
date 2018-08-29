@@ -1,21 +1,20 @@
 // PUBLIC
 
+/**
+ * Factory function - current Hens and Bees Licences
+ *
+ * @public
+ * @return {object}
+ **/
 var HensBeesLicences = function() {
-  
-  /**
-   * Soda URL, for debugging
-   *
-   * @private
-   **/
-  var sodaUrl;
-  
+   
  /**
   * Types of animals
   *
   * @public
   * @constant
   **/
-  this.TYPES = {
+  this.ANIMAL_TYPES = {
     HENS: 'Hens',
     BEES: 'Bees'
   };
@@ -41,20 +40,76 @@ var HensBeesLicences = function() {
       
     fieldMappings: [
       ['animal_insect_type', 'Type'],
-      ['sum_animal_insect_type', '# Licences']
+      ['count_animal_insect_type', '# Licences']
     ]
   };
     
   /**
    * @public
+   * @param {string} neighbourhoodName
    **/
   this.getDataForNeighbourhoodName = function(neighbourhoodName) {
     
-    // filter on status_code?
+    // filter on status_code
     var otherFilterString = 'status_code=ISSUED';
+    return getDataForNeighbourhoodName_(this.metadata, neighbourhoodName, otherFilterString);
+  };
+  
+  /**
+   * @public
+   * @param {string} neighbourhoodName
+   * @param {string} animalType
+   **/
+  this.getDataForNeighbourhoodNameAndAnimalType = function(neighbourhoodName, animalType) {
+
+    // verify petType
+    if((animalType !== 'Bees') && (animalType !== 'Hens')) {
+      return {
+        result: 'error',
+        errorMessage: 'HensBeesLicences.getDataForNeighbourhoodNameAndAnimalType(): param error: invalid animalType.'
+      };
+    }
+    
+    // filter on status_code
+    var otherFilterString = 'status_code=ISSUED&animal_insect_type=' + animalType;
     return getDataForNeighbourhoodName_(this.metadata, neighbourhoodName, otherFilterString);
   };
     
   return this;
   
 };
+
+/**
+ * Factory function - current Bees Licences
+ *
+ * @public
+ * @return {object}
+ **/
+var BeesLicences = function() {
+  var obj = HensBeesLicences();
+  obj.getDataForNeighbourhoodName = function(neighbourhoodName) {
+    return HensBeesLicences().getDataForNeighbourhoodNameAndAnimalType(neighbourhoodName, HensBeesLicences().ANIMAL_TYPES.BEES);
+  };
+  return obj;
+};
+
+/**
+ * Factory function - current Hens Licences
+ *
+ * @public
+ * @return {object}
+ **/
+var HensLicences = function() {
+  var obj = HensBeesLicences();
+  obj.getDataForNeighbourhoodName = function(neighbourhoodName) {
+    return HensBeesLicences().getDataForNeighbourhoodNameAndAnimalType(neighbourhoodName, HensBeesLicences().ANIMAL_TYPES.HENS);
+  };
+  return obj;
+};
+
+function test444() {
+  
+  var resultObj = BeeLicences().getDataForNeighbourhoodName('Holyrood');
+  Logger.log(resultObj);
+  
+}

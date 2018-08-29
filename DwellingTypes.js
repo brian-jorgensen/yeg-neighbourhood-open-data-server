@@ -9,14 +9,7 @@
  * @return {object} - result object
  **/
 var DwellingTypes = function() {
-  
-  /**
-   * Soda URL, for debugging
-   *
-   * @private
-   **/
-  var sodaUrl;
-  
+    
   /**
    * @public
    **/
@@ -31,6 +24,8 @@ var DwellingTypes = function() {
     
     noneOK: true,
     multipleOK: false,
+    
+    fieldMappingSummary: ['Dwelling Type', '# People'],
     
     fieldMappings: [
       ['single_detached_house', 'Single Detached House'],
@@ -69,8 +64,8 @@ var DwellingTypes = function() {
     var response = resultObj.data;
     
     var data = Charts.newDataTable()
-    .addColumn(Charts.ColumnType.STRING, "Age")
-    .addColumn(Charts.ColumnType.NUMBER, "Population");
+    .addColumn(Charts.ColumnType.STRING, "Dwelling Type")
+    .addColumn(Charts.ColumnType.NUMBER, "# People");
     
     var agesObj = this.metadata.fieldMappings;
     var ages = Object.keys(agesObj);

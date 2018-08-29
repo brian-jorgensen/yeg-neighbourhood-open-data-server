@@ -1,4 +1,4 @@
-function testSandboxes_() {
+function testSandboxes() {
   
   // TEST 1a - no comments
   var oliver = Sandboxes().getDataForNeighbourhoodName('Oliver');
