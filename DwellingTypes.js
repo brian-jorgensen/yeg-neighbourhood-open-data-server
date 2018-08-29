@@ -60,40 +60,37 @@ var DwellingTypes = function() {
       };
     }
     
-    var resultObj = this.getDataForNeighbourhoodName(neighbourhoodName);
-    var response = resultObj.data;
+    const resultObj = this.getDataForNeighbourhoodName(neighbourhoodName);
+    const response = resultObj.data[0];
     
-    var data = Charts.newDataTable()
+    var dataTable = Charts.newDataTable()
     .addColumn(Charts.ColumnType.STRING, "Dwelling Type")
     .addColumn(Charts.ColumnType.NUMBER, "# People");
     
-    var agesObj = this.metadata.fieldMappings;
-    var ages = Object.keys(agesObj);
-    var noResponse = response.no_response;
+    const dwellingsObj = this.metadata.fieldMappings;
     
     var total = 0;
-    for(var i = 0; i < ages.length; i++) {
-      var age = ages[i];
-      var ageText = agesObj[age];
-      var population = response[age];
-      total += parseInt(population);
-      
-      if(age === 'no_response') {
-        continue;
-      }
-      
-      data = data.addRow([ageText, population])
-    }
+
+    dwellingsObj.map(function(dwellingMapping, index) {
+      total += parseInt(response[dwellingMapping[0]]);
+      (dwellingMapping[0] !== 'no_response') ? dataTable.addRow([dwellingMapping[1], response[dwellingMapping[0]]]) : null;
+    });
     
-    data = data.build();
+    dataTable = dataTable.build();
     
     var imageSrc;
     try {
+      
+      const textStyle = Charts.newTextStyle().setColor('blue').setFontSize(8).build();
+      
       var chart = Charts.newBarChart()
-      .setDataTable(data)
-      .setTitle(neighbourhoodName + ' Total Population: ' + total + ' (No response:' + noResponse + ')')
+      .setDataTable(dataTable)
+      .setDimensions(800, 500)
+      .setTitle(neighbourhoodName + ' Total Population: ' + total + ' (No response:' + response.no_response + ')')
       .setXAxisTitle('Population')
-      .setYAxisTitle('Age Ranges')
+      .setYAxisTitle('Dwelling Types')
+      .setYAxisTextStyle(textStyle)
+      .setLegendPosition(Charts.Position.NONE)
       .build();
       
       var imageData = Utilities.base64Encode(chart.getAs('image/png').getBytes());
@@ -110,7 +107,9 @@ var DwellingTypes = function() {
       result: 'success',
       data: {
         imageSrc: imageSrc
-      }
+      },
+      metadata: this.metadata,
+      fieldMappings: this.metadata.fieldMappings,
     };
   };
   
