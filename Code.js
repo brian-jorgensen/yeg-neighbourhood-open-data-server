@@ -28,10 +28,22 @@ var APP_TOKEN_ = PropertiesService.getScriptProperties().getProperty('APPTOKEN')
  **/
 function doGet(e) {
 
+  const neighbourhoodName = (e.parameter.neighbourhoodName) ? e.parameter.neighbourhoodName : 'Abbottsfield';
+  
+  // error check
+  if(getNeighbourhoodNamesArray().indexOf(neighbourhoodName) === -1) {
+    var resultObj = {
+      result: 'error',
+      message: 'Param error: invalid neighbourhoodName'
+    };
+    return ContentService.createTextOutput(JSON.stringify(resultObj))
+    .setMimeType(ContentService.MimeType.JSON);
+  }
+  
   const datasetName = (e.parameter.datasetName) ? e.parameter.datasetName : 'AgeRanges';
   
   // error check
-  if(!getDatasets().includes(datasetName)) {
+  if(getDatasets().indexOf(datasetName) === -1) {
     var resultObj = {
       result: 'error',
       message: 'Param error: invalid datasetName'
@@ -39,10 +51,34 @@ function doGet(e) {
     return ContentService.createTextOutput(JSON.stringify(resultObj))
     .setMimeType(ContentService.MimeType.JSON);
   }
+
+  const functionName = (e.parameter.functionName) ? e.parameter.functionName : 'getDataForNeighbourhoodName';
+  
+  // error check
+  if(getDatasetFunctions(datasetName).indexOf(functionName) === -1) {
+    var resultObj = {
+      result: 'error',
+      message: 'Param error: invalid functionName'
+    };
+    return ContentService.createTextOutput(JSON.stringify(resultObj))
+    .setMimeType(ContentService.MimeType.JSON);
+  }
+  
+  const f = getDatasetMappingObject();
+  const result = f[datasetName][functionName](neighbourhoodName);
+//  var factories = {
+//    factoryA: { method: function() {} },
+//    factoryB: { method: function() {} },
+//  };
+//
+//  var factory = 'factoryA';
+//
+//  factories[factory].method();
   
   var resultObj = {
     result: 'Success',
-    data: 'x'
+    data: result
+    //YEGNeighbourhoodOpenDataServer[dataset]()[functionName](neighbourhoodName);
   };
   
   // default mode is json
@@ -60,56 +96,123 @@ function doPost(e) {
 }
 
 /**
- * Get list of available dataset names
+ * Get array of available dataset names
  *
  * @public
+ * @return [string] - array of functionNames
  **/
 function getDatasets() {
-  return getDatasetMapping().map(function(x, index) {
-    return x[0];
-  });
+  return Object.keys(getDatasetMappingObject());
 }
 
 /**
- * Get list of available functions for a given dataset name
+ * Get array of available functions for a given dataset name
  *
  * @public
  * @param {string} datasetName
- @return [string] - array of functionNames
+ * @return [string] - array of functionNames
  **/
 function getDatasetFunctions(datasetName) {
-
-  const vals = getDatasetMapping().map(function(x, index) {
-    return ((x[0] === datasetName) ? x[1] : null);
-  }).filter(function(x, index) {
-    return x;
-  });
-  return vals[0];
-
+  return  Object.keys(getDatasetMappingObject()[datasetName]);
 }
 
 /**
+ * Get object of datasets and functions; will NOT retain sort order
+ *
  * @public
  **/
-function getDatasetMapping() {
-  return [
-    ['AgeRanges',['getDataForNeighbourhoodName', 'getChartForNeighbourhoodName']],
-    ['BeesLicences',['getDataForNeighbourhoodName']],
-    ['BuildingPermits',['getDataForNeighbourhoodName']],
-    ['BylawInfractions',['getDataForNeighbourhoodName']],
-    ['CatLicences',['getDataForNeighbourhoodName']],
-    ['CriminalIncidents',['getDataForNeighbourhoodName']],
-    ['DogLicences',['getDataForNeighbourhoodName']],
-    ['DwellingTypes',['getDataForNeighbourhoodName', 'getChartForNeighbourhoodName']],
-    ['HensLicences',['getDataForNeighbourhoodName']],
-    ['HouseholdIncomes',['getDataForNeighbourhoodName']],
-    ['LatLonArea',['getDataForNeighbourhoodName']],
-    ['MapBoundaries',['getDataForNeighbourhoodName']],
-    ['PigeonLicences',['getDataForNeighbourhoodName']],
-    ['Sandboxes',['getDataForNeighbourhoodName']],
-    ['SnowClearingSchedule',['getDataForNeighbourhoodName']],
-    ['Trees',['getDataForNeighbourhoodName']]
-  ];
+function getDatasetMappingObject() {
+  return {
+    'AgeRanges': {
+      'getDataForNeighbourhoodName': function(neighbourhoodName) {
+        return AgeRanges().getDataForNeighbourhoodName(neighbourhoodName);
+      },
+      'getChartForNeighbourhoodName': function(neighbourhoodName) {
+        return AgeRanges().getChartForNeighbourhoodName(neighbourhoodName);
+      }
+    },
+    'BeesLicences': {
+      'getDataForNeighbourhoodName': function(neighbourhoodName) {
+        return BeesLicences().getDataForNeighbourhoodName(neighbourhoodName);
+      }
+    },
+    'BuildingPermits': {
+      'getDataForNeighbourhoodName': function(neighbourhoodName) {
+        return BuildingPermits().getDataForNeighbourhoodName(neighbourhoodName);
+      }
+    },
+    'BylawInfractions': {
+      'getDataForNeighbourhoodName': function(neighbourhoodName) {
+        return BylawInfractions().getDataForNeighbourhoodName(neighbourhoodName);
+      }
+    },
+    'CatLicences': {
+      'getDataForNeighbourhoodName': function(neighbourhoodName) {
+        return CatLicences().getDataForNeighbourhoodName(neighbourhoodName);
+      }
+    },
+    'CriminalIncidents': {
+      'getDataForNeighbourhoodName': function(neighbourhoodName) {
+        return CriminalIncidents().getDataForNeighbourhoodName(neighbourhoodName);
+      }
+    },
+    'DogLicences': {
+      'getDataForNeighbourhoodName': function(neighbourhoodName) {
+        return DogLicences().getDataForNeighbourhoodName(neighbourhoodName);
+      }
+    },
+    'DwellingTypes': {
+      'getDataForNeighbourhoodName': function(neighbourhoodName) {
+        return DwellingTypes().getDataForNeighbourhoodName(neighbourhoodName);
+      },
+      'getChartForNeighbourhoodName': function(neighbourhoodName) {
+        return DwellingTypes().getChartForNeighbourhoodName(neighbourhoodName);
+      }
+    },
+    'HensLicences': {
+      'getDataForNeighbourhoodName': function(neighbourhoodName) {
+        return HensLicences().getDataForNeighbourhoodName(neighbourhoodName);
+      }
+    },
+    'HouseholdIncomes': {
+      'getDataForNeighbourhoodName': function(neighbourhoodName) {
+        return BuildingPermits().getDataForNeighbourhoodName(neighbourhoodName);
+      },
+      'getChartForNeighbourhoodName': function(neighbourhoodName) {
+        return HouseholdIncomes().getChartForNeighbourhoodName(neighbourhoodName);
+      }
+    },
+    'LatLonArea': {
+      'getDataForNeighbourhoodName': function(neighbourhoodName) {
+        return LatLonArea().getDataForNeighbourhoodName(neighbourhoodName);
+      }
+    },
+    'MapBoundaries': {
+      'getDataForNeighbourhoodName': function(neighbourhoodName) {
+        return MapBoundaries().getDataForNeighbourhoodName(neighbourhoodName);
+      }
+    },
+    'PigeonLicences': {
+      'getDataForNeighbourhoodName': function(neighbourhoodName) {
+        return PigeonLicences().getDataForNeighbourhoodName(neighbourhoodName);
+      }
+    },
+    'Sandboxes': {
+      'getDataForNeighbourhoodName': function(neighbourhoodName) {
+        return Sandboxes().getDataForNeighbourhoodName(neighbourhoodName);
+      }
+    },
+    'SnowClearingSchedule': {
+      'getDataForNeighbourhoodName': function(neighbourhoodName) {
+        return SnowClearingSchedule().getDataForNeighbourhoodName(neighbourhoodName);
+      }
+    },
+    'Trees': {
+      'getDataForNeighbourhoodName': function(neighbourhoodName) {
+        return Trees().getDataForNeighbourhoodName(neighbourhoodName);
+      }
+    },
+  };
   
 }
 
