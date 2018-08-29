@@ -76,25 +76,13 @@ var AgeRanges = function() {
     var response = resultObj.data[0];
     
     var dataTable = Charts.newDataTable()
-    .addColumn(Charts.ColumnType.STRING, "Age")
-    .addColumn(Charts.ColumnType.NUMBER, "Population");
+    .addColumn(Charts.ColumnType.STRING, 'Age')
+    .addColumn(Charts.ColumnType.NUMBER, 'Population');
     
     const agesObj = this.metadata.fieldMappings;
-    var noResponse = response.no_response;
     
     var total = 0;
-//    for(var i = 0; i < ages.length; i++) {
-//      var age = ages[i];
-//      var ageText = agesObj[age];
-//      var population = response[age];
-//      total += parseInt(population);
-//      
-//      if(age === 'no_response') {
-//        continue;
-//      }
-//      
-//      dataTable = dataTable.addRow([ageText, population])
-//    }
+
     agesObj.map(function(ageMapping, index) {
       total += parseInt(response[ageMapping[0]]);
       (ageMapping[0] !== 'no_response') ? dataTable.addRow([ageMapping[1], response[ageMapping[0]]]) : null;
@@ -104,15 +92,21 @@ var AgeRanges = function() {
     
     var imageSrc;
     try {
+      
+      const textStyle = Charts.newTextStyle().setColor('blue').setFontSize(12).build();
+      
       var chart = Charts.newBarChart()
       .setDataTable(dataTable)
-      .setTitle(neighbourhoodName + ' Total Population: ' + total + ' (No response:' + noResponse + ')')
+      .setDimensions(800, 500)
+      .setTitle(neighbourhoodName + ' Total Population: ' + total + ' (No response:' + response.no_response + ')')
       .setXAxisTitle('Population')
       .setYAxisTitle('Age Ranges')
+      .setYAxisTextStyle(textStyle)
+      .setLegendPosition(Charts.Position.NONE)
       .build();
       
       var imageData = Utilities.base64Encode(chart.getAs('image/png').getBytes());
-      imageSrc = "data:image/png;base64," + encodeURI(imageData);
+      imageSrc = 'data:image/png;base64,' + encodeURI(imageData);
     } catch (error) {
       console.error('AgeRanges.getChartForNeighbourhoodName(): Chart error: ' + error);
       return {
