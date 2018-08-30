@@ -73,14 +73,12 @@ function getMapByNeighbourhoodName(name, options) {
     // start outline
     map.beginPath();
     
-    for(var i = 0; i < points.length; i++) {
-      var point = points[i];
-      var lat = point[1];
-      var lon = point[0];
-      map.addPoint(lat, lon);
-    }
-  
-  map.endPath();
+    // add points
+    points.map(function(point, index) {
+      map.addPoint(point[1], point[0]);
+    });
+    
+    map.endPath();
     
   }
   
