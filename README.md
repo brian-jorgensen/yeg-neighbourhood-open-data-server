@@ -3,11 +3,16 @@
 The YEG NEighbourhood Open Data website is the best place to start to understand what this project is all about.
 
 ## YEG Neighbourhood Open Data Server
-This is the javascript code for a google apps script ("GAS") that provides greatly simplified querying, error handling, and json data output for certain curated City of Edmonton Open Data data sets that support filtering based on neighbourhood.
+This is the javascript code for a Google Drive or GSuite Google Apps Script that provides greatly simplified querying, error handling, and json data output for certain curated City of Edmonton Open Data data sets that support filtering based on neighbourhood.
 
 **What do we mean 'curated'? The queries in this library purposefully exclude some columns/fields from the original datasets and some of the queries also provide aggregated views of the underlying data sets in order to provide simpler views of the data.**
 
 The source of all data this library uses is the City of Edmonton Open Data Portal: [https://data.edmonton.ca](https://data.edmonton.ca).
+
+## Why Google Apps Script
+Two reasons:
+- students in Edmonton use Google Drive / GSuite. Using this technology allows students to use this software "where they already live";
+- google apps scripts are one of the most accessible entryways for students to learn basic html/css/javascript programming that I have seen.
 
 ## Coming Soon
 YEG Neighbourhood Open Data Client - to provide a working example of a client that consumes and formats the output of this server.
