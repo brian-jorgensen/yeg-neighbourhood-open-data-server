@@ -1,3 +1,6 @@
+
+# For the actual website, please visit the [YEG Neighbourhood Open Data Site](https://sites.google.com/view/yeg-neighbourhood-open-data/home).
+
 # YEG Neighbourhood Open Data Server
 This is a google apps script ("GAS") library that provides greatly simplified querying, error handling, and json data output for City of Edmonton Open Data that supports filtering based on neighbourhood.
 
