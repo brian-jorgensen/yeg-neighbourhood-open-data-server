@@ -1,0 +1,68 @@
+<script>
+
+$(function() {
+  
+  // load functions for AgeRanges
+  loadDatasetFunctions();
+
+});
+
+/**
+ * Show progress bar
+ **/
+function showProgressBar() {
+  $('#progressBarContainer').empty();
+  var pb = '<div class="progress">';
+  pb += '<div class="progress-bar bg-success progress-bar-striped active progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">';
+  pb += 'Loading Data....';
+  pb += '</div>';
+  pb += '</div>';
+  $('#progressBarContainer').append(pb);
+}
+
+/**
+ * Hide progress bar
+ **/
+function hideProgressBar() {
+  $('#progressBarContainer').empty();
+}
+
+/**
+ *
+ **/
+function loadDatasetFunctions() {
+  const dataset = $('#datasetsDropdown').find(':selected').text();
+  google.script.run.withSuccessHandler(updateFunctionsDropdown).getFunctionsDropdown(dataset);
+}
+
+/**
+ *
+ **/
+function updateFunctionsDropdown(vals) {
+  $('#functionsDropdown').empty();
+  vals.map(function(x, index) {
+    $('#functionsDropdown').append(x);
+  });
+}
+
+/**
+ *
+ **/
+ function buildUrl() {
+ 
+   const mode = $('#modesDropdown').find(':selected').text();
+   const format = $('#formatsDropdown').find(':selected').text();
+   const datasetName = $('#datasetsDropdown').find(':selected').text();
+   const functionName = $('#functionsDropdown').find(':selected').text();
+   const neighbourhoodName = $('#neighbourhoodNamesDropdown').find(':selected').text();
+   
+   const finalURL = url + '?mode=' + mode + '&format=' + format + '&datasetName=' + datasetName + '&functionName=' + functionName + '&neighbourhoodName=' + neighbourhoodName;
+   
+   // set in text area
+   $('#resultUrl').val(finalURL);
+   
+   // set in test link
+   $('#testLink').attr('href', finalURL);
+   
+ }
+</script>
