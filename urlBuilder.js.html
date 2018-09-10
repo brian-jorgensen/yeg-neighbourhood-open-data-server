@@ -56,13 +56,15 @@ function updateFunctionsDropdown(vals) {
    const functionName = $('#functionsDropdown').find(':selected').text();
    const neighbourhoodName = $('#neighbourhoodNamesDropdown').find(':selected').text();
    
-   const finalURL = url + '?mode=' + mode + '&format=' + format + '&datasetName=' + datasetName + '&functionName=' + functionName + '&neighbourhoodName=' + neighbourhoodName;
+   const queryparams = '?mode=' + mode + '&format=' + format + '&datasetName=' + datasetName + '&functionName=' + functionName + '&neighbourhoodName=' + neighbourhoodName;
+   const shortURL = '[URL]' + queryparams;
+   const fullURL = url + queryparams;
    
    // set in text area
-   $('#resultUrl').val(finalURL);
+   $('#resultUrl').val(shortURL);
    
    // set in test link
-   $('#testLink').attr('href', finalURL);
+   $('#testLink').attr('href', fullURL);
    
  }
 </script>
