@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    
+    <!-- google verification -->
+    <meta name="google-site-verification" content="tmPfbgUp3hABx3NWKskT_87cY_CIiR2F03KjQK8HFbY" />
+    
+    <!-- Required Bootstrap meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     
+    <!-- google web fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Orbitron">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+      
+    <!-- jquery -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+    crossorigin="anonymous">
+    
+    <!-- css -->
+    <?!= include('styles.css') ?>
+    
+  </head>
+  <body>
+    <div class="container">
+    
+      <div id='progressBarContainer'>
+      </div>
+      
+      <div id='alertContainer'>
+      </div>
+      
+      <h3>YEG Neighbourhood Open Data - Server - Help</h3>
+      
+      <div class="card text-white bg-secondary w-auto">
+        <div class="card-header">
+          <h4 class="card-title">Different URLs Provide Different Results</h4>
+        </div>
+        <div class="card-body bg-white text-dark">
+          <p>The YEG Neighbourhood Open Data Server ("script") can return different results, depending on values that you add to the end of the URL (address).</p>
+          <p>There are four main types of results this server will return:</p>
+          <ol>
+            <li><strong>help</strong> (human-readable html)</li>
+            <li><strong>listDatasetNames</strong> (html or json)</li>
+            <li><strong>listNeighbourhoodNames</strong> (html or json), and</li>
+            <li><strong>getData</strong> (html or json).</li>
+          </ol>
+        </div>
+        <div class="card-footer">
+          Notes: .
+        </div>
+      </div>
+      
+      <div class="card text-white bg-secondary w-auto">
+        <div class="card-header">
+          <h4 class="card-title">How URLs are Built</h4>
+        </div>
+        <div class="card-body bg-white text-dark">
+          <p>The URL is the entire address you see in your browser's location bar.<p>
+          <p>For this version of this script, the [URL] is: <code><?!= url ?></code>.</p>
+          <p>We can add query parameter name/value pairs to the end of [URL] after a ?; if we use query parameters and values that the script understands, this script will return different results.</p>
+          <p>Query params are added in <code>name=value</code> pairs; a question mark comes before the first pair and ampersands separate the pairs after that: <code>[URL]?queryParamName1=queryParamValue1&queryParamName2=queryParamValue2&...</code></p>
+        </div>
+        <div class="card-footer">
+          Notes: on this page we often use [URL] instead of providing the entire long URL you see above.
+        </div>
+      </div>
+      
+      <h4>How URLs are Built</h4>
+      <p>The URL is the address you see in your browser's location bar.<p>
+      <p>By changing the query parameters, you will get different results back.</p>
+      <p>URLs are built as follows: <code>[URL]?queryparamname1=queryparamValue1&queryParamName2=queryParamValue2&...</code></p>
+      <p>For further explanation, see.</p>
+      
+      <p>What you are looking at right now is the <strong>default or help</strong> mode. This help html is displayed when no query parameters are added after [URL].</p>
+      <p>Visiting <strong>[URL]?mode=listDatasetNames</strong> provides valid values for <code>datasetName</code> and <code>functionName</code>. All datasets support <code>functionName=getDataForNeighbourhoodName</code>; some also support <code>functionName=getChartForNeighbourhoodName</code>.</p>
+      <p>Visiting <strong>[URL]?mode=listNeighbourhoodNames</strong> provides valid values for <code>neighbourhoodName</code> query parameter.</p>
+      <p>Visiting <strong>[URL]?mode=html</strong> provides a <a href='https://getbootstrap.com/docs/4.1/components/card/' target='_blank'>bootstrap v4.1 card</a> suitable for embedding in a google site and requires the additional <code>datasetName</code> and <code>functionName</code> parameter values that you get from the two middle list views.</p>
+      <p>Visiting <strong>[URL]?mode=json</strong> provides a <a href='https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON#JSON_structure' target='_blank'>json object</a> suitable for a <a href=''>google apps script</a> app or <a href=''>MIT App Inventor</a> app and requires the additional <code>datasetName</code> and <code>functionName</code> parameter values that you get from the two middle list views.</p>
+      
+      <table class="table">
+        <thead>
+          <tr><th>mode</th><th>example url</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>help</strong></td><td><a href='<?!= url ?>' target='_blank'>[URL]</a></td></tr>
+          <tr><td><strong>listDatasetNames</strong></td><td><a href='<?!= url ?>?mode=listDatasetNames' target='_blank'>[URL]?mode=listDatasetNames</a></td></tr>
+          <tr><td><strong>listNeighbourhoodNames</strong></td><td><a href='<?!= url ?>?mode=listNeighbourhoodNames' target='_blank'>[URL]?mode=listNeighbourhoodNames</a></td></tr>
+          <tr><td><strong>html</strong></td><td><a href='<?!= url ?>?mode=html&datasetName=AgeRanges&functionName=getDataForNeighbourhoodName&neighbourhoodName=Abbottsfield' target='_blank'>[URL]?mode=html&amp;datasetName=AgeRanges&amp;functionName=getDataForNeighbourhoodName&amp;neighbourhoodName=Abbottsfield</a></td></tr>
+          <tr><td><strong>json</strong></td><td><a href='<?!= url ?>?mode=json&datasetName=AgeRanges&functionName=getDataForNeighbourhoodName&neighbourhoodName=Abbottsfield' target='_blank'>[URL]?mode=json&amp;datasetName=AgeRanges&amp;functionName=getDataForNeighbourhoodName&amp;neighbourhoodName=Abbottsfield</a></td></tr>
+        </tbody>
+      </table>
+  </div>
+  </body>
+</html>
+
+
