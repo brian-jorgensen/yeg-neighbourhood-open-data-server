@@ -153,9 +153,9 @@ function doGet(e) {
     if(result.data.imageSrc) {
       formattedData = '<img src="' + result.data.imageSrc + '" />';
     } else if(result.metadata.multipleOK === true) {
-      formattedData = 'Loading data...';//getGridTABLE(result);
+      formattedData = 'Loading data...';
     } else {
-      formattedData = 'Loading data...';//getRowTABLE(result);
+      formattedData = 'Loading data...';
     }
     
     const card = HtmlService.createTemplateFromFile('card');
@@ -257,7 +257,7 @@ function getDatasetMappingObject() {
     },
     'HouseholdIncomes': {
       'getDataForNeighbourhoodName': function(neighbourhoodName) {
-        return BuildingPermits().getDataForNeighbourhoodName(neighbourhoodName);
+        return HouseholdIncomes().getDataForNeighbourhoodName(neighbourhoodName);
       },
       'getChartForNeighbourhoodName': function(neighbourhoodName) {
         return HouseholdIncomes().getChartForNeighbourhoodName(neighbourhoodName);
@@ -268,9 +268,12 @@ function getDatasetMappingObject() {
         return LatLonArea().getDataForNeighbourhoodName(neighbourhoodName);
       }
     },
-    'MapBoundaries': {
-      'getDataForNeighbourhoodName': function(neighbourhoodName) {
-        return MapBoundaries().getDataForNeighbourhoodName(neighbourhoodName);
+    'Map': {
+      'getCityMapForNeighbourhoodName': function(neighbourhoodName) {
+        return Map().getCityMapForNeighbourhoodName(neighbourhoodName);
+      },
+      'getMapForNeighbourhoodName': function(neighbourhoodName) {
+        return Map().getMapForNeighbourhoodName(neighbourhoodName);
       }
     },
     'PigeonLicences': {

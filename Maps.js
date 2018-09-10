@@ -1,6 +1,62 @@
 // PUBLIC
 
 /**
+ * Maps by neighbourhood name.
+ *
+ * Data is stored in script cache for CACHE_DURATION seconds for all users to access.
+ *
+ * {
+ * "area":"1.2854493782208847",
+ * "latitude":"53.53136058180469",
+ * "longitude":"-113.45018981994133",
+ * }
+ *
+ * @public
+ * @return {object} - this
+ **/
+var Map = function() {
+    
+  /**
+   * @public
+   **/
+  this.metadata = {
+    key: 'Map',
+    name: 'Neighbourhood Map',
+  };
+    
+  /**
+   * @public
+   **/
+  this.getCityMapForNeighbourhoodName = function(neighbourhoodName) {
+    
+    const resultObj = {};
+    resultObj.metadata = this.metadata;
+    const temp = getCityMapForNeighbourhoodName_(neighbourhoodName);
+    resultObj.result = temp.result;
+    resultObj.message = (temp.message) ? temp.message : null;
+    resultObj.data = (temp.data) ? temp.data : null;
+    return resultObj;
+  }
+    
+  /**
+   * @public
+   **/
+  this.getMapForNeighbourhoodName = function(neighbourhoodName) {
+    
+    const resultObj = {};
+    resultObj.metadata = this.metadata;
+    const temp =  getMapForNeighbourhoodName_(neighbourhoodName, {showBoundaries: true});
+    resultObj.result = temp.result;
+    resultObj.message = (temp.message) ? temp.message : null;
+    resultObj.data = (temp.data) ? temp.data : null;
+    return resultObj;
+  }
+  
+  return this;
+  
+};
+
+/**
  * Get a neighbourhood StaticMap (no zoom slider, no pan) by neighbourhood name.
  *
  * Options are:
@@ -22,8 +78,12 @@
  * @param {object} options - An object with the properties:
  * @return {string} imgSrc - The src content for an html <img/> tag
  **/
-function getMapByNeighbourhoodName(name, options) {
+function getMapForNeighbourhoodName_(name, options) {
 
+  if(!options) {
+    options = {};
+  }
+  
   // options
   var width = 400;
   if(options.width) {
@@ -65,7 +125,7 @@ function getMapByNeighbourhoodName(name, options) {
        .setCenter(latitude, longitude);
   }
   
-  // showBoundaries?
+  // showBoundaries
   if(options.showBoundaries) {
     
     var points = MapBoundaries().getDataForNeighbourhoodName(name).data;
@@ -94,19 +154,26 @@ function getMapByNeighbourhoodName(name, options) {
   var imageData = Utilities.base64Encode(map.getMapImage());
   var imageSrc = "data:image/png;base64," + encodeURI(imageData);
   
-  return imageSrc;
+  var resultObj = {
+    result: 'success',
+    data: {
+      imageSrc: imageSrc
+    }
+  };
+  
+  return resultObj;
   
 }
 
 /**
- * Get map of entire city with optional neighbourhood marker.
+ * Get map of entire city with neighbourhood marker.
  *
  * @public
- * @param {string} name - neighbourhood name
+ * @param {string} neighbourhoodName - neighbourhood name
  * @param {object} options - options object
  * @return {string} - imgSrc attribute
  **/
-function getCityMap(name, options) {
+function getCityMapForNeighbourhoodName_(neighbourhoodName, options) {
 
   if(!options) {
     options = {};
@@ -131,7 +198,7 @@ function getCityMap(name, options) {
   }
   
   // neighbourood lat and lon
-  var resultObj = LatLonArea().getDataForNeighbourhoodName(name);
+  var resultObj = LatLonArea().getDataForNeighbourhoodName(neighbourhoodName);
   
   // Edmonton centroid
   var latitude = 53.5444;
@@ -156,14 +223,14 @@ function getCityMap(name, options) {
   var imageData = Utilities.base64Encode(map.getMapImage());
   var imageSrc = "data:image/png;base64," + encodeURI(imageData);
   
-  var data = {
+  var resultObj = {
     result: 'success',
     data: {
       imageSrc: imageSrc
     }
   };
   
-  return JSON.stringify(data);
+  return resultObj;
   
 }
 
