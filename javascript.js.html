@@ -1,0 +1,52 @@
+<script>
+
+$(function() {
+      
+  $('#errorMessageCard').hide();
+  $('#dataCard').hide();
+  
+  // load functions for AgeRanges
+  loadDatasetFunctions();
+});
+
+/**
+ * Show progress bar
+ **/
+function showProgressBar() {
+  $('#progressBarContainer').empty();
+  var pb = '<div class="progress">';
+  pb += '<div class="progress-bar bg-success progress-bar-striped active progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">';
+  pb += 'Loading Data....';
+  pb += '</div>';
+  pb += '</div>';
+  $('#progressBarContainer').append(pb);
+  
+}
+
+/**
+ * Hide progress bar
+ **/
+function hideProgressBar() {
+  $('#progressBarContainer').empty();
+}
+
+/**
+ * Load dataset functions
+ **/
+function loadDatasetFunctions() {
+  const dataset = $('#datasetsDropdown').find(':selected').text();
+  google.script.run.withSuccessHandler(updateFunctionsDropdown).getFunctionsDropdown(dataset);
+}
+
+/**
+ * Update functions dropdown
+ * @param [string] - array of functionNames
+ **/
+function updateFunctionsDropdown(vals) {
+  $('#functionsDropdown').empty();
+  vals.map(function(x, index) {
+    $('#functionsDropdown').append(x);
+  });
+}
+
+</script>

@@ -27,64 +27,145 @@ var APP_TOKEN_ = PropertiesService.getScriptProperties().getProperty('APPTOKEN')
  * @public
  **/
 function doGet(e) {
-
-  const neighbourhoodName = (e.parameter.neighbourhoodName) ? e.parameter.neighbourhoodName : 'Abbottsfield';
+//  e = {};
+//  e.parameter = {
+//    mode: 'html',
+//    datasetName: 'AgeRanges',
+//    functionName: 'getDataForNeighbourhoodName',
+//    neighbourhoodName: 'Abbottsfield'
+//  };
   
-  // error check
-  if(getNeighbourhoodNamesArray().indexOf(neighbourhoodName) === -1) {
-    var resultObj = {
-      result: 'error',
-      message: 'Param error: invalid neighbourhoodName'
-    };
-    return ContentService.createTextOutput(JSON.stringify(resultObj))
-    .setMimeType(ContentService.MimeType.JSON);
+  if(!e.parameter.mode) {
+    
+    const t = HtmlService.createTemplateFromFile('help');
+    t.url = ScriptApp.getService().getUrl();
+    t.datasetsDropdown = getDatasetsDropdown();
+    t.functionsDropdown = [];
+    t.neighbourhoodNamesDropdown = getNeighbourhoodNamesDropdown();
+  
+    return t.evaluate().setTitle('YEG Neighbourhood Open Data - Server');
+    
+  } else if (e.parameter.mode === 'urlBuilder') {
+    
+    const urlBuilder = HtmlService.createTemplateFromFile('urlBuilder');
+    urlBuilder.url = ScriptApp.getService().getUrl();
+    urlBuilder.datasetsDropdown = getDatasetsDropdown();
+    urlBuilder.functionsDropdown = [];
+    urlBuilder.neighbourhoodNamesDropdown = getNeighbourhoodNamesDropdown();
+    return urlBuilder.evaluate().setTitle('YEG Neighbourhood Open Data').setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+    
+  } else if (e.parameter.mode === 'listDatasetNames') {
+    
+    const datasets = getDatasetMappingObject();
+    
+    if(e.parameter.format === 'json') {
+      const resultObjDatasets = {
+        result: 'success',
+        data: datasets
+      };
+      return ContentService.createTextOutput(JSON.stringify(resultObjDatasets))
+      .setMimeType(ContentService.MimeType.JSON);
+    } else {
+      const temp = Object.keys(datasets).map(function(datasetName, index) {
+        return datasetName + ' (' + Object.keys(datasets[datasetName]).join(', ') + ')';
+      });
+      return HtmlService.createHtmlOutput(temp.join('<br />')).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+    }
+    
+  } else if (e.parameter.mode === 'listNeighbourhoodNames') {
+    
+    const neighbourhoods = getNeighbourhoodNamesArray();
+    
+    if(e.parameter.format === 'json') {
+      const resultObjNeighbourhoods = {
+        result: 'success',
+        data: neighbourhoods
+      };
+      return ContentService.createTextOutput(JSON.stringify(resultObjNeighbourhoods))
+      .setMimeType(ContentService.MimeType.JSON);
+    } else {
+      return HtmlService.createHtmlOutput(neighbourhoods.join('<br />')).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+    }
+    
+  } else if (e.parameter.mode !== 'getData') {
+    
+    return HtmlService.createHtmlOutput('Mode parameter must be one of "listDatasetNames", "listNeighbourhoodNames", "getData", or "urlBuilder". Example: "?mode=listDatasetNames".').setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+    
   }
   
-  const datasetName = (e.parameter.datasetName) ? e.parameter.datasetName : 'AgeRanges';
+  // mode=getData
+  // DATASET
+  const datasetName = (e.parameter.datasetName) ? e.parameter.datasetName : null;
   
   // error check
   if(getDatasets().indexOf(datasetName) === -1) {
-    var resultObj = {
+    const resultObj2 = {
       result: 'error',
-      message: 'Param error: invalid datasetName'
+      message: 'Param error: invalid datasetName. Try query parameter ?mode=listDatasetNames to see valid values.'
     };
-    return ContentService.createTextOutput(JSON.stringify(resultObj))
+    return ContentService.createTextOutput(JSON.stringify(resultObj2))
     .setMimeType(ContentService.MimeType.JSON);
   }
 
+  // FUNCTION
   const functionName = (e.parameter.functionName) ? e.parameter.functionName : 'getDataForNeighbourhoodName';
   
   // error check
   if(getDatasetFunctions(datasetName).indexOf(functionName) === -1) {
-    var resultObj = {
+    const resultObj3 = {
       result: 'error',
       message: 'Param error: invalid functionName'
     };
-    return ContentService.createTextOutput(JSON.stringify(resultObj))
+    return ContentService.createTextOutput(JSON.stringify(resultObj3))
     .setMimeType(ContentService.MimeType.JSON);
   }
   
+  // NEIGHBOURHOOD
+  const neighbourhoodName = (e.parameter.neighbourhoodName) ? e.parameter.neighbourhoodName : 'Abbottsfield';
+  
+  // error check
+  if(getNeighbourhoodNamesArray().indexOf(neighbourhoodName) === -1) {
+    const resultObj4 = {
+      result: 'error',
+      message: 'Param error: invalid neighbourhoodName'
+    };
+    return ContentService.createTextOutput(JSON.stringify(resultObj4))
+    .setMimeType(ContentService.MimeType.JSON);
+  }
+  
+  // load data
   const f = getDatasetMappingObject();
   const result = f[datasetName][functionName](neighbourhoodName);
-//  var factories = {
-//    factoryA: { method: function() {} },
-//    factoryB: { method: function() {} },
-//  };
-//
-//  var factory = 'factoryA';
-//
-//  factories[factory].method();
-  
-  var resultObj = {
-    result: 'Success',
-    data: result
-    //YEGNeighbourhoodOpenDataServer[dataset]()[functionName](neighbourhoodName);
-  };
-  
+
   // default mode is json
-  return ContentService.createTextOutput(JSON.stringify(resultObj))
-  .setMimeType(ContentService.MimeType.JSON);
+  if(e.parameter.mode === 'json') {
+    const resultObj5 = {
+      result: 'Success',
+      data: result
+    };
     
+    return ContentService.createTextOutput(JSON.stringify(resultObj5))
+    .setMimeType(ContentService.MimeType.JSON);
+  } else {
+    
+    // formattedData - row, grid, or image
+    var formattedData;
+    if(result.data.imageSrc) {
+      formattedData = '<img src="' + result.data.imageSrc + '" />';
+    } else if(result.metadata.multipleOK === true) {
+      formattedData = 'Loading data...';//getGridTABLE(result);
+    } else {
+      formattedData = 'Loading data...';//getRowTABLE(result);
+    }
+    
+    const card = HtmlService.createTemplateFromFile('card');
+    card.url = ScriptApp.getService().getUrl();
+    card.datasetName = e.parameter.datasetName;
+    card.functionName = e.parameter.functionName;
+    card.neighbourhoodName = e.parameter.neighbourhoodName;    
+        
+    return card.evaluate().setTitle('YEG Neighbourhood Open Data').setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+  }   
 
 }
 
@@ -214,6 +295,54 @@ function getDatasetMappingObject() {
     },
   };
   
+}
+
+function getDatasetsDropdown() {
+  return getDatasets().map(function(x, index) {
+    return '<option value="' + x + '">' + x + '</option>';
+  });
+}
+
+function getFunctionsDropdown(dataset) {
+  return getDatasetFunctions(dataset).map(function(x, index) {
+    return '<option value="' + x + '">' + x + '</option>';
+  });
+}
+
+function getNeighbourhoodNamesDropdown(datasets) {
+  return getNeighbourhoodNamesArray().map(function(x, index) {
+    return '<option value="' + x + '">' + x + '</option>';
+  });
+}
+
+/**
+ *
+ **/
+function loadData(datasetName, functionName, neighbourhoodName) {
+//  datasetName = 'AgeRanges';
+//  functionName = 'getDataForNeighbourhoodName';
+//  neighbourhoodName = 'Abbottsfield';
+
+  const map = getDatasetMappingObject();
+  
+  // validate functionName
+  if(map.hasOwnProperty(datasetName) && map[datasetName].hasOwnProperty(functionName)) {
+    const responseObj = map[datasetName][functionName](neighbourhoodName);
+    const title = responseObj.metadata.name;
+    return {title: title, neighbourhoodName: neighbourhoodName, responseObj: responseObj};
+  } else {
+    return {title: 'error', responseObj: {}};
+  }
+  
+}
+
+/**
+ * Include file
+ *
+ * @param {string} filename
+ **/
+function include(filename) {
+  return HtmlService.createHtmlOutputFromFile(filename).getContent();
 }
 
 /**

@@ -1,0 +1,221 @@
+<script>
+
+$(function() {
+  
+  $('#title').html('Loading....');
+  
+  showProgressBar();
+  
+  $('#formattedData').empty();
+
+  google.script.run.withSuccessHandler(updateData).loadData(datasetName, functionName, neighbourhoodName);
+
+
+});
+
+/**
+ * Show progress bar
+ **/
+function showProgressBar() {
+  $('#progressBarContainer').empty();
+  var pb = '<div class="progress">';
+  pb += '<div class="progress-bar bg-success progress-bar-striped active progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">';
+  pb += 'Loading Data....';
+  pb += '</div>';
+  pb += '</div>';
+  $('#progressBarContainer').append(pb);
+}
+
+/**
+ * Hide progress bar
+ **/
+function hideProgressBar() {
+  $('#progressBarContainer').empty();
+}
+
+/**
+ *
+ **/
+function updateData(resultObj) {
+  
+  hideProgressBar();
+  
+  // populate data
+  var titleElement = $('#title');
+  titleElement.html(resultObj.neighbourhoodName + ' - ' + resultObj.title);
+  
+  if(resultObj.responseObj.result === 'error') {
+
+    $('#formattedData').append('Error: ' + resultObj.responseObj.message);
+
+  } else if(resultObj.responseObj.result === 'successEmpty') {
+
+    $('#formattedData').append('No results found.');
+    
+    // populate URLs in card footer
+    $('#coeURL').attr('href', resultObj.responseObj.metadata.url);
+    $('#sodaURL').attr('href', resultObj.responseObj.metadata.sodaUrl);
+    $('#sodaURL').text(resultObj.responseObj.metadata.dataset);
+    
+  } else if(resultObj.responseObj.result === 'success') {
+  
+    // formattedData - row, grid, or image
+    if(resultObj.responseObj.data.imageSrc) {
+      const $img = $('<img>').attr('src', resultObj.responseObj.data.imageSrc);
+      $('#formattedData').append($img);
+    } else if(resultObj.responseObj.metadata.multipleOK === true) {
+      $('#formattedData').append(getGridTABLE(resultObj.responseObj));
+    } else {
+      $('#formattedData').append(getRowTABLE(resultObj.responseObj));
+    }
+    
+    // populate URLs in card footer
+    $('#coeURL').attr('href', resultObj.responseObj.metadata.url);
+    $('#sodaURL').attr('href', resultObj.responseObj.metadata.sodaUrl);
+    $('#sodaURL').text(resultObj.responseObj.metadata.dataset);
+    
+  } else {
+  
+    console.log('UNKNOWN RESULT: ' + resultObj.responseObj.result);
+    
+  }
+}
+
+/**
+ * HTML table for a grid of data (multiple rows)
+ *
+ * @param {object} resultObj
+ * @return {string} jQuery HTML table
+ **/  
+function getGridTABLE(resultObj) {
+
+  // handle error
+  if(resultObj.result === 'error') {
+    var error = 'Error retrieving data.';
+    error += '<blockquote><code>' + resultObj.errorMessage + '</code></blockquote>';
+    error += 'The administrator has been notified.';
+    return error;
+  }
+  
+  // list of data keys and people-friendly equivalent values
+  const fieldMappings = resultObj.metadata.fieldMappings;
+    
+  const $table = $('<table>').addClass('table');
+  const $thead = $('<thead>');
+  const $tr = $('<tr>');
+  
+  // append human readable header
+  fieldMappings.map(function(mappingArray, index) {
+    const $th = $('<th>').text(mappingArray[1]);
+    $tr.append($th);
+  });
+  $thead.append($tr);
+  $table.append($thead);
+
+  // append tbody
+  const $tbody = $('<tbody>');
+  
+  if (resultObj.result === 'successEmptpy') {
+    const $tr = $('<tr>');
+    const $td = $('<td>').text('No results found');
+    $tr.append($td);
+    $tbody.append($tr);
+    $table.append($tbody);
+    return $table;
+  }
+  
+  const dataGrid = resultObj.data;
+  
+  // total number of units
+  var total = 0;
+  
+  // display rows
+  dataGrid.map(function(dataObj, index) {
+    const $tr = $('<tr>');
+    fieldMappings.map(function(mappingArray, index) {
+      const $td = $('<td>').text(dataObj[mappingArray[0]]);
+      $tr.append($td);
+      //total += parseInt(dataObj[field]);
+    });
+    $tbody.append($tr);
+  });
+  
+//  const $trTotal = $('<tr>');
+//  const $td3 = $('<td>').text('Total')
+//  const $td4 = $('<td>').text(total);
+//  
+//  $trTotal.append($td3);
+//  $trTotal.append($td4);
+  //$tbody.append($trTotal);
+  $table.append($tbody);
+  
+  return $table;
+}
+
+/**
+ * HTML table for a row of data
+ *
+ * @param {object} resultObj
+ * @return {string} jQuery HTML table
+ **/
+function getRowTABLE(resultObj) {
+
+  // handle error
+  if(resultObj.result === 'error') {
+    var error = 'Error retrieving data.';
+    error += '<blockquote><code>' + resultObj.errorMessage + '</code></blockquote>';
+    error += 'The administrator has been notified.';
+    return error;
+  }
+  
+  // list of data keys and people-friendly equivalent values
+  const fieldMappingSummary = resultObj.metadata.fieldMappingSummary;
+  const fieldMappings = resultObj.metadata.fieldMappings; 
+  const keys = Object.keys(fieldMappings);
+  
+  const $table = $('<table>').addClass('table');
+  const $thead = $('<thead>');
+  const $tr = $('<tr>');
+  
+  // append human readable header
+  if(fieldMappingSummary) {
+    fieldMappingSummary.map(function(header, index) {
+      const $th = $('<th>').text(header);
+      $tr.append($th);
+    });
+    $thead.append($tr);
+    $table.append($thead);
+  }
+
+  // append tbody
+  const $tbody = $('<tbody>');
+
+  const dataRow = resultObj.data[0];
+  
+  // total number of units
+  var total = 0;
+  
+  // display row vertically
+  fieldMappings.map(function(mappingArray, index) {
+    const $tr = $('<tr>');
+    const $td1 = $('<td>').text(mappingArray[1]);
+    const $td2 = $('<td>').text(dataRow[mappingArray[0]]);
+    $tr.append($td1);
+    $tr.append($td2);
+    $tbody.append($tr);
+    total += parseInt(dataRow[mappingArray[0]]);
+  });
+  
+  const $trTotal = $('<tr>');
+  const $td3 = $('<td>').text('Total')
+  const $td4 = $('<td>').text(total);
+  
+  $trTotal.append($td3);
+  $trTotal.append($td4);
+  $tbody.append($trTotal);
+  $table.append($tbody);
+  
+  return $table;
+}
+
+</script>
